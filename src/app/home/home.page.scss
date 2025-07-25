@@ -161,6 +161,9 @@ ion-content {
         display: flex;
 
         swiper-slide {
+          padding-right: 18px;
+          width: fit-content;
+          margin: 0;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -226,7 +229,76 @@ ion-content {
   }
 
   // end of categories section
+
+  // 04 deals section
+  .deals{
+    padding-left: 20px;
+    padding-top: 21px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    .head{
+      padding-right: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      h2{
+        margin: 0;
+        font-size: 18px;
+        font-family: 600;
+        
+      }
+      a{
+        font-size: 13px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #0EB177;
+        text-decoration: none;
+        gap: 2px;
+        span{
+          height: 20px;
+        }
+      }
+    }
+    swiper-container{
+      padding-right: 10px;
+      width: 100%;
+      swiper-slide{
+        width: fit-content;
+        margin-right: 13px;
+      }
+    }
+  } 
 }
+
+
+// Foooter
+ion-footer{
+  height: 86px;
+  background: white;
+  box-shadow: -1px 7px 30px -4px rgba(99,94,94,0.71);
+  -webkit-box-shadow: -1px 7px 30px -4px rgba(99,94,94,0.71);
+  -moz-box-shadow: -1px 7px 30px -4px rgba(99,94,94,0.71);
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  // display: flex;
+  // align-items: center;
+  width: 100%;
+  padding: 29px 37px;
+  .footer-main{
+    display: flex;
+    justify-content: space-between;
+    div{
+      width: 29px;
+      height: 29px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+
 
 
 
