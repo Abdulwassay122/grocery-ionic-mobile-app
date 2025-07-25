@@ -1,27 +1,257 @@
-#container {
-  text-align: center;
+// ionic header 
 
+ion-header {
+  background: #4CAD73;
+  box-shadow: none;
+
+  ion-toolbar {
+    --background: #4CAD73;
+    padding-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    width: 100%;
+
+    ion-title {
+      font-family: "Montserrat Alternates", sans-serif;
+      font-size: 16.32px;
+      font-weight: 600;
+
+      img {
+        width: 16.32px;
+        height: 18.13px;
+      }
+
+      div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+      }
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      line-height: 0%;
+    }
+  }
+
+  .search {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0px 21px;
+    gap: 15px;
+
+    img {
+      width: 26px;
+    }
+  }
+
+  ion-item.search-bar {
+    img {
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+    }
+
+    padding: 0;
+
+    ion-input {
+      font-size: 12px;
+      --padding-start: 0;
+      --padding-end: 0;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      font-family: "Montserrat Alternates", sans-serif;
+    }
+
+    width: 100%;
+    height: 36px;
+    color: #BDBDBD;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+// end of ionic header
+
+ion-content {
+  font-family: "Inter", sans-serif;
+
+  //01 location section
+  .location {
+    background: #4CAD73;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding-top: 20px;
+
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      img {
+        width: 16px;
+        height: 16px;
+      }
+
+      img.down {
+        width: 20px;
+        height: 20px;
+      }
+
+      p {
+        margin: 0;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      p.bold {
+        font-size: 12px;
+        font-weight: 600;
+      }
+    }
+  }
+
+  // end of location section
+
+  //02 slider section
+  .half-bg-box {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: white; // background for the right side
+
+    .half-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 75%;
+      background-color: #4CAD73;
+      z-index: 0;
+      clip-path: ellipse(82% 70% at 50% 12%);
+    }
+
+    .slider {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-left: 1rem;
+      padding-top: 1rem;
+
+      swiper-container {
+        width: 100%;
+        display: flex;
+
+        swiper-slide {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+  }
+
+  // end of slider section
+
+  // 03 categories section
+  .categories-section {
+    border-bottom: 1px solid #BDBDBD;
+    padding-left: 28px;
+    padding-top: 60px;
+    padding-bottom: 48px;
+    display: flex;
+    flex-direction: column; 
+    gap: 20px;
+    h2 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #333333;
+      margin: 0;
+    }
+
+    .categories {
+      width: 100%;
+      .category {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 8px;
+        width: fit-content;
+
+        div {
+          height: 53px;
+          width: 53px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgb(81, 155, 88, 20%);
+          border-radius: 15px;
+
+          img {
+            border-radius: 50%;
+            object-fit: cover;
+          }
+        }
+
+        p {
+          padding: 0;
+          margin: 0;
+          font-size: 12px;
+          font-weight: 500;
+          max-width: 66px;
+        }
+      }
+    }
+
+  }
+
+  // end of categories section
+}
+
+
+
+
+// for pagination for swiper
+swiper-container::part(pagination) {
   position: absolute;
+  bottom: 10px;
   left: 0;
   right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  text-align: center;
+  z-index: 10;
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+swiper-container::part(bullet) {
+  width: 8px;
+  height: 8px;
+  background-color: #bbb;
+  margin: 0 4px;
+  border-radius: 50%;
+  opacity: 0.5;
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
 
-  color: #8c8c8c;
-
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
+swiper-container::part(bullet-active) {
+  background-color: #14790a;
+  opacity: 1;
 }
