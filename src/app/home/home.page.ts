@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonInput, IonItem } from '@ionic/angular/standalone';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Router } from '@angular/router';
 import { register } from 'swiper/element/bundle';
 
 register();
@@ -12,6 +13,9 @@ register();
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class HomePage {
+  goToProducts() {
+    this.router.navigate(['/products']);
+  }
   slideOpts = {
     initialSlide: 0,
     speed: 400,
@@ -20,5 +24,5 @@ export class HomePage {
       delay: 2000,
     },
   };
-  constructor() { }
+  constructor(private router: Router) {}
 }

@@ -167,6 +167,9 @@ ion-content {
           display: flex;
           align-items: center;
           justify-content: center;
+          img{
+            background: none;
+          }
         }
       }
     }
@@ -245,18 +248,19 @@ ion-content {
       h2{
         margin: 0;
         font-size: 18px;
-        font-family: 600;
-        
+        font-family: 600; 
       }
-      a{
+      ion-button{
         font-size: 13px;
         display: flex;
         justify-content: center;
         align-items: center;
         color: #0EB177;
-        text-decoration: none;
         gap: 2px;
         span{
+          display: flex;
+          align-items: center;
+          justify-content: center;
           height: 20px;
         }
       }
@@ -274,22 +278,38 @@ ion-content {
 
 
 // Foooter
-ion-footer{
+
+ion-footer {
+  // position: absolute;
+  // bottom: 0;
+  // margin-top: 86px;
   height: 86px;
-  background: white;
-  box-shadow: -1px 7px 30px -4px rgba(99,94,94,0.71);
-  -webkit-box-shadow: -1px 7px 30px -4px rgba(99,94,94,0.71);
-  -moz-box-shadow: -1px 7px 30px -4px rgba(99,94,94,0.71);
-  border-top-left-radius: 50px;
-  border-top-right-radius: 50px;
-  // display: flex;
-  // align-items: center;
   width: 100%;
   padding: 29px 37px;
-  .footer-main{
+  z-index: 20;
+
+  // Rounded top corners
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+
+  // Transparent background to reveal underlying content
+
+  // Optional shadow
+  box-shadow: -1px -7px 30px -4px rgba(99, 94, 94, 0.71);
+  -webkit-box-shadow: -1px -7px 30px -4px rgba(99, 94, 94, 0.71);
+  -moz-box-shadow: -1px -7px 30px -4px rgba(99, 94, 94, 0.71);
+
+  overflow: hidden; // Ensures rounded corners clip internal content
+  background: #FFFFFF;
+
+  .footer-main {
     display: flex;
     justify-content: space-between;
-    div{
+
+    // Optional: match rounded corners if needed
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    div {
       width: 29px;
       height: 29px;
       display: flex;
@@ -298,6 +318,7 @@ ion-footer{
     }
   }
 }
+
 
 
 
