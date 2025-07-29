@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { register } from 'swiper/element/bundle';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 register();
 @Component({
@@ -11,8 +12,10 @@ register();
 })
 export class ProductDetailComponent  implements OnInit {
 
-  constructor() { }
-
+  constructor(private navCtrl: NavController) { }
+  goToBack(){
+    this.navCtrl.navigateBack(['/products']);
+  }
   ngOnInit() {}
 
 }

@@ -1,5 +1,9 @@
 import { Routes } from '@angular/router';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
+import { FirstComponent } from './first/first.component';
+import { CartComponent } from './cart/cart.component';
 
 export const routes: Routes = [
   {
@@ -14,10 +18,14 @@ export const routes: Routes = [
         (m) => m.ProductsPageComponent
       ),
   },
- { path: 'productdetail', component: ProductDetailComponent },
+  { path: 'productdetail', component: ProductDetailComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'signup', component: SignupComponent },
+  { path: 'first', component: FirstComponent },
+  { path: 'cart', component: CartComponent },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'first',
     pathMatch: 'full',
   },
 ];

@@ -1,0 +1,53 @@
+<ion-content>
+  <div class="ellipse"></div>
+
+  <div class="page-container">
+    
+    <div>
+      <ion-button (click)="goToFirst()" fill="clear" class="back-button">
+        <img src="assets/images/chevron-down.png" />
+      </ion-button>
+      <div class="header">
+        <h1>Sign Up</h1>
+        <img src="assets/images/Group 767.png" alt="">
+      </div>
+    </div>
+
+    <div class="form-wrapper">
+      <div class="inputs">
+        <!-- Email -->
+        <ion-item lines="none" class="input-item">
+          <ion-label position="stacked">name</ion-label>
+          <ion-input type="email" placeholder="yourmail@mail.com" [(ngModel)]="email" class="custom-input "></ion-input>
+        </ion-item>
+        <ion-item lines="none" class="input-item">
+          <ion-label position="stacked">email</ion-label>
+          <ion-input type="email" placeholder="yourmail@mail.com" [(ngModel)]="email" class="custom-input "></ion-input>
+        </ion-item>
+
+        <!-- Password -->
+        <ion-item lines="none" class="input-item margin-top-18">
+          <ion-label position="stacked">password</ion-label>
+          <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="your password" [(ngModel)]="password"
+            class="custom-input"></ion-input>
+          <!-- <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'" slot="end" class="eye-icon"
+          (click)="togglePasswordVisibility()"></ion-icon> -->
+          <div class="forgot-password">
+            <a>Forgot Password</a>
+          </div>
+        </ion-item>
+      </div>
+
+
+      <!-- Login Button -->
+      <ion-button fill="clear" expand="block" class="login-btn">Sign Up</ion-button>
+
+      <!-- Register -->
+      <div class="register-link">
+        Already have an account?
+        <a>Login</a>
+      </div>
+    </div>
+
+  </div>
+</ion-content>

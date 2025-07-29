@@ -116,12 +116,13 @@
     // 02 Product section
     .products-section {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      grid-template-columns: auto auto;
       padding: 20px;
       ion-card {
         height: 251px;
         width: fit-content;
         box-shadow: 0 2px 8px rgba(128, 128, 128, 0.2);
+        border-radius: 10px;
 
         .image-container{
           position: relative;

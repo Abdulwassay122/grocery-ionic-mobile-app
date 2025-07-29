@@ -2,7 +2,7 @@
   <!-- Product Iamges  -->
   <div class="carousel">
     <div class="back-n-fav">
-      <div><img class="chevron" src="assets/images/Vector copy 2.png" alt=""></div>
+      <div (click)="goToBack()" ><img class="chevron" src="assets/images/Vector copy 2.png" alt=""></div>
       <div><img class="heart" src="assets/images/heart.png" alt=""></div>
     </div>
     <swiper-container slides-per-view="1" pagination="true">
@@ -37,8 +37,85 @@
   </div>
 
   <!-- Related Products  -->
-  <div class="related-products"> 
+  <div class="related-products">
     <h3>Related Product</h3>
-    <div></div>
+    <swiper-container slides-per-view="auto">
+      <swiper-slide>
+        <ion-card class="product-card">
+          <div class="image-container">
+            <img src="assets/images/Rectangle 74.png" alt="Product Image" />
+          </div>
+          <ion-card-content>
+            <h2>Fresh Carrot</h2>
+            <div class="price-section">
+              <p class="price">
+                <span>Rp 18,000</span>
+                <span class="weight">/ kg</span>
+              </p>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </swiper-slide>
+      <swiper-slide>
+        <ion-card class="product-card">
+          <div class="image-container">
+            <img src="assets/images/Rectangle 74.png" alt="Product Image" />
+          </div>
+          <ion-card-content>
+            <h2>Fresh Carrot</h2>
+            <div class="price-section">
+              <p class="price">
+                <span>Rp 18,000</span>
+                <span class="weight">/ kg</span>
+              </p>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </swiper-slide>
+      <swiper-slide>
+        <ion-card class="product-card">
+          <div class="image-container">
+            <img src="assets/images/Rectangle 74.png" alt="Product Image" />
+          </div>
+          <ion-card-content>
+            <h2>Fresh Carrot</h2>
+            <div class="price-section">
+              <p class="price">
+                <span>Rp 18,000</span>
+                <span class="weight">/ kg</span>
+              </p>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </swiper-slide>
+      <swiper-slide>
+        <ion-card class="product-card">
+          <div class="image-container">
+            <img src="assets/images/Rectangle 74.png" alt="Product Image" />
+          </div>
+          <ion-card-content>
+            <h2>Fresh Carrot</h2>
+            <div class="price-section">
+              <p class="price">
+                <span>Rp 18,000</span>
+                <span class="weight">/ kg</span>
+              </p>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </swiper-slide>
+    </swiper-container>
   </div>
 </ion-content>
+
+<ion-footer>
+  <div class="button-group">
+    <button class="g-1" fill="clear"><img src="assets/images/Vector copy 3.png" alt=""></button>
+    <button class="g-2" fill="clear"><p>2</p></button>
+    <button class="g-1" fill="clear"><img class="p" src="assets/images/Group 780.png" alt=""></button>
+  </div>
+  <button fill="clear">
+     Add to Cart
+  </button>
+
+</ion-footer>

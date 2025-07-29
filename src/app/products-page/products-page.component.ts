@@ -4,6 +4,7 @@ import { register } from 'swiper/element/bundle';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
+import { NavController } from '@ionic/angular';
 
 register();
 @Component({
@@ -16,12 +17,12 @@ register();
 })
 export class ProductsPageComponent  implements OnInit {
   goToProducts() {
-    this.router.navigate(['/']);
+    this.navCtrl.navigateBack(['/home']);
   }
   goToProductdetail() {
-    this.router.navigate(['/productdetail']);
+    this.navCtrl.navigateForward(['/productdetail']);
   }
- constructor(private router: Router) {}
+  constructor(private navCtrl: NavController) { }
 
   ngOnInit() {}
 
