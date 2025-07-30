@@ -2,28 +2,55 @@ import { Component, OnInit } from '@angular/core';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonInput, IonItem } from '@ionic/angular/standalone';
 import { register } from 'swiper/element/bundle';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { NavController } from '@ionic/angular';
+import { ApiService } from '../api.service';
+import { CommonModule } from '@angular/common'; 
+
 
 register();
 @Component({
   selector: 'app-products-page',
   templateUrl: './products-page.component.html',
   styleUrls: ['./products-page.component.scss'],
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonInput, IonItem, RouterModule],
+  imports: [CommonModule, IonHeader, IonContent, IonInput, RouterModule],
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class ProductsPageComponent  implements OnInit {
+export class ProductsPageComponent implements OnInit {
+
+  posts: any[] = [];
+
+  constructor(private navCtrl: NavController, private apiService: ApiService) { }
+
   goToProducts() {
     this.navCtrl.navigateBack(['/home']);
   }
-  goToProductdetail() {
-    this.navCtrl.navigateForward(['/productdetail']);
+  goToProductdetail(productId: string) {
+    this.navCtrl.navigateForward(['/productdetail'], {
+      queryParams: { id: productId }
+    });
   }
-  constructor(private navCtrl: NavController) { }
 
-  ngOnInit() {}
+  ngOnInit(): void {
+    this.apiService.getPosts().subscribe((res: any) => {
+      const edges = res?.data?.products?.edges || [];
+
+      this.posts = edges.map((edge: any) => {
+        const variant = edge.node.variants.edges[0]?.node;
+        return {
+          id: edge.node.id,
+          title: edge.node.title,
+          description: edge.node.description,
+          imageUrl: edge.node.images.edges[0]?.node.url,
+          altText: edge.node.images.edges[0]?.node.altText,
+          price: variant?.price?.amount,
+          currency: variant?.price?.currencyCode
+        };
+      });
+
+      console.log("Loaded products:", this.posts);
+    });
+  }
 
 }

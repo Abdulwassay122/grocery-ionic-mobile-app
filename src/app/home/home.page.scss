@@ -3,6 +3,7 @@
 ion-header {
   background: #4CAD73;
   box-shadow: none;
+  padding-bottom: 5px;
 
   ion-toolbar {
     --background: #4CAD73;
@@ -46,8 +47,17 @@ ion-header {
     margin: 0px 21px;
     gap: 15px;
 
-    img {
+    .search-bar {
+      ion-icon {
+        height: 17px;
+        color: #BDBDBD;
+      }
+    }
+
+    ion-icon {
+      height: 26px;
       width: 26px;
+      color: #fff;
     }
   }
 
@@ -87,7 +97,7 @@ ion-header {
 ion-content {
   font-family: "Inter", sans-serif;
 
-  //01 location section
+  // 01 location section
   .location {
     background: #4CAD73;
     color: white;
@@ -167,7 +177,8 @@ ion-content {
           display: flex;
           align-items: center;
           justify-content: center;
-          img{
+
+          img {
             background: none;
           }
         }
@@ -184,8 +195,9 @@ ion-content {
     padding-top: 60px;
     padding-bottom: 48px;
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     gap: 20px;
+
     h2 {
       font-size: 18px;
       font-weight: 600;
@@ -195,6 +207,7 @@ ion-content {
 
     .categories {
       width: 100%;
+
       .category {
         display: flex;
         flex-direction: column;
@@ -234,23 +247,27 @@ ion-content {
   // end of categories section
 
   // 04 deals section
-  .deals{
+  .deals {
     padding-left: 20px;
     padding-top: 21px;
+    margin-bottom: 10px;
     display: flex;
     flex-direction: column;
     gap: 16px;
-    .head{
+
+    .head {
       padding-right: 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      h2{
+
+      h2 {
         margin: 0;
         font-size: 18px;
-        font-family: 600; 
+        font-family: 600;
       }
-      ion-button{
+
+      ion-button {
         text-transform: none;
         font-size: 13px;
         display: flex;
@@ -258,7 +275,8 @@ ion-content {
         align-items: center;
         color: #0EB177;
         gap: 2px;
-        span{
+
+        span {
           display: flex;
           align-items: center;
           justify-content: center;
@@ -266,27 +284,143 @@ ion-content {
         }
       }
     }
-    swiper-container{
+
+    swiper-container {
       padding-right: 10px;
       width: 100%;
-      swiper-slide{
+
+      swiper-slide {
+        ion-card {
+          height: 251px;
+          width: fit-content;
+          box-shadow: 0 2px 8px rgba(128, 128, 128, 0.2);
+          border-radius: 10px;
+
+          .image-container {
+            position: relative;
+            width: 157px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            img {
+              height: 131px;
+              width: auto;
+            }
+
+            div.fav {
+              position: absolute;
+              color: white;
+              z-index: 1;
+              top: 10px;
+              right: 10px;
+              width: 30px;
+              height: 30px;
+              background: rgb(0, 0, 0, 56%);
+              border-radius: 9px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+
+              img {
+                height: 20px;
+                width: 20px;
+              }
+            }
+          }
+
+          ion-card-content {
+            padding-left: 12px;
+            padding-top: 4px;
+            padding-bottom: 10px;
+
+            h2 {
+              font-size: 14px;
+              font-weight: 600;
+              color: #333333;
+              height: 23px;
+              display: flex;
+              align-items: center;
+            }
+
+            .price-section {
+              .price {
+                display: flex;
+                align-items: center;
+                height: 21px;
+                display: flex;
+                align-items: center;
+
+                // justify-content: center;
+                span {
+                  display: flex;
+                  align-items: center;
+                  font-size: 13px;
+                  font-size: 700;
+                  color: #4CAD73;
+                }
+
+                span.weight {
+                  display: flex;
+                  align-items: center;
+                  font-size: 10px;
+                  font-weight: 500;
+                  color: #828282;
+                }
+              }
+
+              .cut-price {
+                display: flex;
+                align-items: center;
+                text-decoration: line-through;
+                color: #BDBDBD;
+                font-size: 11px;
+                height: 21px;
+              }
+            }
+
+            .add {
+              display: flex;
+              justify-content: flex-end;
+              height: 28px;
+              background: white;
+
+              button {
+                background: white;
+                height: 29px;
+                width: 29px;
+                padding: 0;
+                border: 1px solid #4CAD73;
+                color: #4CAD73;
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                
+                ion-icon {
+                  color: #4CAD73;
+                  height: 20px;
+                  width: 20px;
+                }
+              }
+            }
+          }
+        }
+
         width: fit-content;
         margin-right: 13px;
       }
     }
-  } 
+  }
 }
 
 
 // Foooter
 
 ion-footer {
-  // position: absolute;
-  // bottom: 0;
-  // margin-top: 86px;
   height: 86px;
-  width: 100%;
-  padding: 29px 37px;
+  width: 100vw;
+  padding: 29px 37px env(safe-area-inset-bottom);
   z-index: 20;
 
   // Rounded top corners
@@ -310,12 +444,19 @@ ion-footer {
     // Optional: match rounded corners if needed
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
+
     div {
       width: 29px;
       height: 29px;
       display: flex;
       justify-content: center;
       align-items: center;
+
+      ion-icon {
+        width: 29px;
+        height: 29px;
+        color: #BDBDBD;
+      }
     }
   }
 }

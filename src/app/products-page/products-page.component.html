@@ -1,14 +1,14 @@
 <ion-header>
   <button fill="clear" (click)="goToProducts()" class="logo">
-    <img src="assets/images/Vector copy.png" alt="">
+    <ion-icon name="chevron-back-outline"></ion-icon>
   </button>
   <div class="search-bar">
-    <img class="search" src="../../assets/images/search.png" alt="" />
+    <ion-icon class="search" name="search-outline"></ion-icon>
     <ion-input placeholder="Search for fruits, vegetables, groce..."></ion-input>
     <img src="../../assets/images/Group3.png" alt="" />
   </div>
   <div class="cart">
-    <img src="assets/images/Group 758.png" alt="">
+   <ion-icon class="logo" name="cart-outline"></ion-icon>
   </div>
 </ion-header>
 
@@ -102,159 +102,28 @@
 
   <!-- Products  -->
   <div class="products-section">
-    <ion-card (click)="goToProductdetail()" class="product-card">
+    <ion-card class="product-card" *ngFor="let product of posts" (click)="goToProductdetail(product.id)">
       <div class="image-container">
-        <img src="assets/images/Rectangle 74.png" alt="Product Image" />
-        <div class="fav"><img src="assets/images/Layer 11.png" alt="heart" /></div>
+        <img *ngIf="product.imageUrl" [src]="product.imageUrl" [alt]="product.altText" />
+        <div class="fav"><ion-icon name="heart-outline"></ion-icon></div>
       </div>
 
       <ion-card-content>
-        <h2>Fresh Carrot</h2>
+        <h2>{{product.title}}</h2>
         <div class="price-section">
           <p class="price">
-            <span>Rp 18,000</span>
+            <span>{{product.currency}} {{product.price}}</span>
             <span class="weight">/ kg</span>
           </p>
-          <p class="cut-price">Rp 21,000</p>
+          <p class="cut-price">PKR 21,000</p>
         </div>
         <div class="add">
           <button fill="clear" class="add-button">
-            <img src="../../assets/images/Group 780.png" alt="Add to Cart Icon" />
+            <ion-icon name="add-outline"></ion-icon>
           </button>
         </div>
       </ion-card-content>
     </ion-card>
-    <ion-card class="product-card">
-      <div class="image-container">
-        <img src="assets/images/Rectangle 74.png" alt="Product Image" />
-        <div class="fav"><img src="assets/images/Layer 11.png" alt="heart" /></div>
-      </div>
-
-      <ion-card-content>
-        <h2>Fresh Carrot</h2>
-        <div class="price-section">
-          <p class="price">
-            <span>Rp 18,000</span>
-            <span class="weight">/ kg</span>
-          </p>
-          <p class="cut-price">Rp 21,000</p>
-        </div>
-        <div class="add">
-          <button fill="clear" class="add-button">
-            <img src="../../assets/images/Group 780.png" alt="Add to Cart Icon" />
-          </button>
-        </div>
-      </ion-card-content>
-    </ion-card>
-    <ion-card class="product-card">
-      <div class="image-container">
-        <img src="assets/images/Rectangle 74.png" alt="Product Image" />
-        <div class="fav"><img src="assets/images/Layer 11.png" alt="heart" /></div>
-      </div>
-
-      <ion-card-content>
-        <h2>Fresh Carrot</h2>
-        <div class="price-section">
-          <p class="price">
-            <span>Rp 18,000</span>
-            <span class="weight">/ kg</span>
-          </p>
-          <p class="cut-price">Rp 21,000</p>
-        </div>
-        <div class="add">
-          <button fill="clear" class="add-button">
-            <img src="../../assets/images/Group 780.png" alt="Add to Cart Icon" />
-          </button>
-        </div>
-      </ion-card-content>
-    </ion-card>
-    <ion-card class="product-card">
-      <div class="image-container">
-        <img src="assets/images/Rectangle 74.png" alt="Product Image" />
-        <div class="fav"><img src="assets/images/Layer 11.png" alt="heart" /></div>
-      </div>
-
-      <ion-card-content>
-        <h2>Fresh Carrot</h2>
-        <div class="price-section">
-          <p class="price">
-            <span>Rp 18,000</span>
-            <span class="weight">/ kg</span>
-          </p>
-          <p class="cut-price">Rp 21,000</p>
-        </div>
-        <div class="add">
-          <button fill="clear" class="add-button">
-            <img src="../../assets/images/Group 780.png" alt="Add to Cart Icon" />
-          </button>
-        </div>
-      </ion-card-content>
-    </ion-card>
-    <ion-card class="product-card">
-      <div class="image-container">
-        <img src="assets/images/Rectangle 74.png" alt="Product Image" />
-        <div class="fav"><img src="assets/images/Layer 11.png" alt="heart" /></div>
-      </div>
-
-      <ion-card-content>
-        <h2>Fresh Carrot</h2>
-        <div class="price-section">
-          <p class="price">
-            <span>Rp 18,000</span>
-            <span class="weight">/ kg</span>
-          </p>
-          <p class="cut-price">Rp 21,000</p>
-        </div>
-        <div class="add">
-          <button fill="clear" class="add-button">
-            <img src="../../assets/images/Group 780.png" alt="Add to Cart Icon" />
-          </button>
-        </div>
-      </ion-card-content>
-    </ion-card>
-    <ion-card class="product-card">
-      <div class="image-container">
-        <img src="assets/images/Rectangle 74.png" alt="Product Image" />
-        <div class="fav"><img src="assets/images/Layer 11.png" alt="heart" /></div>
-      </div>
-
-      <ion-card-content>
-        <h2>Fresh Carrot</h2>
-        <div class="price-section">
-          <p class="price">
-            <span>Rp 18,000</span>
-            <span class="weight">/ kg</span>
-          </p>
-          <p class="cut-price">Rp 21,000</p>
-        </div>
-        <div class="add">
-          <button fill="clear" class="add-button">
-            <img src="../../assets/images/Group 780.png" alt="Add to Cart Icon" />
-          </button>
-        </div>
-      </ion-card-content>
-    </ion-card>
-    <ion-card class="product-card">
-      <div class="image-container">
-        <img src="assets/images/Rectangle 74.png" alt="Product Image" />
-        <div class="fav"><img src="assets/images/Layer 11.png" alt="heart" /></div>
-      </div>
-
-      <ion-card-content>
-        <h2>Fresh Carrot</h2>
-        <div class="price-section">
-          <p class="price">
-            <span>Rp 18,000</span>
-            <span class="weight">/ kg</span>
-          </p>
-          <p class="cut-price">Rp 21,000</p>
-        </div>
-        <div class="add">
-          <button fill="clear" class="add-button">
-            <img src="../../assets/images/Group 780.png" alt="Add to Cart Icon" />
-          </button>
-        </div>
-      </ion-card-content>
-    </ion-card>
+    
   </div>
 </ion-content>

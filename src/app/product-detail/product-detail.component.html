@@ -1,42 +1,58 @@
-<ion-content>
-  <!-- Product Iamges  -->
+<ion-content *ngIf="!loading && product; else loadingTemp">
+  <!-- Product Images -->
   <div class="carousel">
     <div class="back-n-fav">
-      <div (click)="goToBack()" ><img class="chevron" src="assets/images/Vector copy 2.png" alt=""></div>
-      <div><img class="heart" src="assets/images/heart.png" alt=""></div>
+      <div (click)="goToBack()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </div>
+      <div><ion-icon name="heart-outline"></ion-icon></div>
     </div>
-    <swiper-container slides-per-view="1" pagination="true">
-      <swiper-slide><img src="../../assets/images/Rectangle 319.png" /></swiper-slide>
-      <swiper-slide><img src="../../assets/images/Rectangle 319.png" /></swiper-slide>
-      <swiper-slide><img src="../../assets/images/Rectangle 319.png" /></swiper-slide>
+
+    <swiper-container *ngIf="selectedVariant?.imageUrl" slides-per-view="1" pagination="true">
+      <swiper-slide>
+        <img [src]="selectedVariant.imageUrl" />
+      </swiper-slide>
     </swiper-container>
   </div>
 
-
   <!-- Product Details -->
-
-  <!-- price detaail -->
   <div class="product-details">
     <div class="product-name-container">
       <div class="badge">vegetables</div>
-      <h1 class="product-name">Fresh Carrot</h1>
-      <h2 class="product-price">Rp 18,000 <span class="weight">/ kg</span><span class="cut-price">Rp 21,000</span></h2>
+      <h1 class="product-name">{{ product.title }}</h1>
+
+      <!-- Variant-Specific Price -->
+      <h2 class="product-price">
+        {{ selectedVariant.currency }} {{ selectedVariant.price }}
+        <span class="weight">/ kg</span>
+        <span class="cut-price">Rp 21,000</span>
+      </h2>
+    </div>
+
+    <!-- Variant Selector -->
+    <div class="variant-selector" *ngIf="product?.variants?.length > 1">
+      <label>Select Quality:</label>
+      <div class="variant-buttons">
+        <button
+          *ngFor="let variant of product.variants"
+          [class.selected]="selectedVariant?.id === variant.id"
+          (click)="selectVariant(variant)">
+          {{ variant.title }}
+        </button>
+      </div>
     </div>
   </div>
 
-  <!-- priodduct info -->
+  <!-- Product Info -->
   <div class="product-info">
     <div class="head">
-      <h3>Description <div class="bar"></div>
-      </h3>
+      <h3>Description <div class="bar"></div></h3>
       <h3>Nutrition facts</h3>
     </div>
-    <p class="content">The carrot is a root vegetable, most commonly observed as orange in color, though purple, black,
-      red, white, and yellow cultivars exist, all of which are domesticated forms of the wild carrot, Daucus carota,
-      native to Europe and Southwestern Asia.</p>
+    <p class="content">{{ product.description }}</p>
   </div>
 
-  <!-- Related Products  -->
+  <!-- Related Products -->
   <div class="related-products">
     <h3>Related Product</h3>
     <swiper-container slides-per-view="auto">
@@ -56,66 +72,23 @@
           </ion-card-content>
         </ion-card>
       </swiper-slide>
-      <swiper-slide>
-        <ion-card class="product-card">
-          <div class="image-container">
-            <img src="assets/images/Rectangle 74.png" alt="Product Image" />
-          </div>
-          <ion-card-content>
-            <h2>Fresh Carrot</h2>
-            <div class="price-section">
-              <p class="price">
-                <span>Rp 18,000</span>
-                <span class="weight">/ kg</span>
-              </p>
-            </div>
-          </ion-card-content>
-        </ion-card>
-      </swiper-slide>
-      <swiper-slide>
-        <ion-card class="product-card">
-          <div class="image-container">
-            <img src="assets/images/Rectangle 74.png" alt="Product Image" />
-          </div>
-          <ion-card-content>
-            <h2>Fresh Carrot</h2>
-            <div class="price-section">
-              <p class="price">
-                <span>Rp 18,000</span>
-                <span class="weight">/ kg</span>
-              </p>
-            </div>
-          </ion-card-content>
-        </ion-card>
-      </swiper-slide>
-      <swiper-slide>
-        <ion-card class="product-card">
-          <div class="image-container">
-            <img src="assets/images/Rectangle 74.png" alt="Product Image" />
-          </div>
-          <ion-card-content>
-            <h2>Fresh Carrot</h2>
-            <div class="price-section">
-              <p class="price">
-                <span>Rp 18,000</span>
-                <span class="weight">/ kg</span>
-              </p>
-            </div>
-          </ion-card-content>
-        </ion-card>
-      </swiper-slide>
+      <!-- More related slides if needed -->
     </swiper-container>
   </div>
 </ion-content>
 
 <ion-footer>
   <div class="button-group">
-    <button class="g-1" fill="clear"><img src="assets/images/Vector copy 3.png" alt=""></button>
-    <button class="g-2" fill="clear"><p>2</p></button>
-    <button class="g-1" fill="clear"><img class="p" src="assets/images/Group 780.png" alt=""></button>
+    <button class="g-1" fill="clear"  (click)="decreaseQuantity()"><ion-icon name="remove-outline"></ion-icon></button>
+    <button class="g-2" fill="clear"><p>{{quantity}}</p></button>
+    <button class="g-1" fill="clear" (click)="increaseQuantity()"><ion-icon name="add-outline"></ion-icon></button>
   </div>
-  <button fill="clear">
-     Add to Cart
-  </button>
-
+  <button fill="clear">Add to Cart</button>
 </ion-footer>
+
+<ng-template #loadingTemp>
+  <div class="loading-wrapper">
+    <ion-spinner name="lines-sharp"></ion-spinner>
+    <p>Loading product details...</p>
+  </div>
+</ng-template>

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { register } from 'swiper/element/bundle';
 
+register();
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',

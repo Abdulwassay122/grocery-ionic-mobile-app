@@ -1,20 +1,59 @@
 import { Component } from '@angular/core';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonInput, IonItem } from '@ionic/angular/standalone';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { register } from 'swiper/element/bundle';
+import { ApiService } from '../api.service';
+import { CommonModule } from '@angular/common';
 
 register();
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonInput, IonItem],
+  imports: [CommonModule, IonHeader, IonToolbar, IonTitle, IonContent, IonInput, IonItem],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class HomePage {
+  posts: any[] = [];
+
+  constructor(private navCtrl: NavController, private apiService: ApiService) { }
+  
+  ngOnInit(): void {
+    this.apiService.getPosts().subscribe((res: any) => {
+      const edges = res?.data?.products?.edges || [];
+
+      this.posts = edges.map((edge: any) => {
+        const variant = edge.node.variants.edges[0]?.node;
+        return {
+          id: edge.node.id,
+          title: edge.node.title,
+          description: edge.node.description,
+          imageUrl: edge.node.images.edges[0]?.node.url,
+          altText: edge.node.images.edges[0]?.node.altText,
+          price: variant?.price?.amount,
+          currency: variant?.price?.currencyCode
+        };
+      });
+
+      console.log("Loaded products:", this.posts);
+    });
+  }
+  
   goToProducts() {
-    this.router.navigate(['/products']);
+    this.navCtrl.navigateForward(['/products']);
+  }
+  goToCart() {
+    this.navCtrl.navigateForward(['/cart']);
+  }
+  goToProductdetail(productId: string) {
+    const activeElement = document.activeElement as HTMLElement;
+  if (activeElement && typeof activeElement.blur === 'function') {
+    activeElement.blur();
+  }
+    this.navCtrl.navigateForward(['/productdetail'], {
+      queryParams: { id: productId }
+    });
   }
   slideOpts = {
     initialSlide: 0,
@@ -24,5 +63,4 @@ export class HomePage {
       delay: 2000,
     },
   };
-  constructor(private router: Router) {}
 }

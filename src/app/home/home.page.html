@@ -11,11 +11,11 @@
   </ion-toolbar>
   <div class="search">
     <ion-item class="search-bar">
-      <img src="../../assets/images/search.png" alt="" />
+      <ion-icon name="search-outline"></ion-icon>
       <ion-input placeholder="Search for fruits, vegetables, groce..."></ion-input>
     </ion-item>
-    <img src="../../assets/images/Group.png" alt="" />
-    <img src="../../assets/images/Vector1.png" alt="" />
+    <ion-icon name="mail-outline"></ion-icon>
+    <ion-icon name="notifications-outline"></ion-icon>
   </div>
 </ion-header>
 
@@ -23,12 +23,12 @@
   <!-- location -->
   <div class="location">
     <div>
-      <img src="../../assets/images/carbon_location.png" alt="" />
+      <ion-icon name="location-outline"></ion-icon>
       <p>Sent to</p>
     </div>
     <div>
       <p class=".bold">Pamulang Barat Residence No.5, RT 05/ ...</p>
-      <img class="down" src="../../assets/images/chevron-down.png" alt="" />
+      <ion-icon name="chevron-down-outline"></ion-icon>
     </div>
   </div>
 
@@ -134,15 +134,37 @@
   <!-- Special Deal -->
   <div class="deals">
     <div class="head">
-      <h2>Special Deal</h2>
-      <ion-button  fill="clear" (click)="goToProducts()"> <span>See more</span> <span><img src="../../assets/images/chevron-right.png" alt=""></span></ion-button>
+      <h2>Top Products</h2>
+      <ion-button fill="clear" (click)="goToProducts()"> <span>See more</span> <span><ion-icon
+            name="chevron-forward-outline"></ion-icon></span></ion-button>
     </div>
     <swiper-container slides-per-view="auto" space-between="">
-      <swiper-slide><img src="../../assets/images/Rectangle 10.png" /></swiper-slide>
-      <swiper-slide><img src="../../assets/images/Rectangle 10.png" /></swiper-slide>
-      <swiper-slide><img src="../../assets/images/Rectangle 10.png" /></swiper-slide>
-      <swiper-slide><img src="../../assets/images/Rectangle 10.png" /></swiper-slide>
+      <swiper-slide *ngFor="let product of posts" (click)="goToProductdetail(product.id)">
+        <ion-card class="product-card" >
+          <div class="image-container">
+            <img *ngIf="product.imageUrl" [src]="product.imageUrl" [alt]="product.altText" />
+            <div class="fav"><ion-icon name="heart-outline"></ion-icon></div>
+          </div>
+
+          <ion-card-content>
+            <h2>{{product.title}}</h2>
+            <div class="price-section">
+              <p class="price">
+                <span>{{product.currency}} {{product.price}}</span>
+                <span class="weight">/ kg</span>
+              </p>
+              <p class="cut-price">PKR 21,000</p>
+            </div>
+            <div class="add">
+              <button fill="clear" class="add-button">
+                <ion-icon name="add-outline"></ion-icon>
+              </button>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </swiper-slide>
     </swiper-container>
+    
     <swiper-container slides-per-view="auto" space-between="">
       <swiper-slide><img src="../../assets/images/Rectangle 10.png" /></swiper-slide>
       <swiper-slide><img src="../../assets/images/Rectangle 10.png" /></swiper-slide>
@@ -157,10 +179,10 @@
 
   <ion-footer>
     <div class="footer-main">
-      <div><img src="assets/images/Group 775.png" alt=""></div>
-      <div><img src="../../assets/images/heart.png" alt=""></div>
-      <div><img src="../../assets/images/Group 758.png" alt=""></div>
-      <div><img src="../../assets/images/Group2.png" alt=""></div>
+      <div><ion-icon name="home-outline"></ion-icon></div>
+      <div><ion-icon name="heart-outline"></ion-icon></div>
+      <div (click)="goToCart()"><ion-icon name="cart-outline"></ion-icon></div>
+      <div><ion-icon name="person-outline"></ion-icon></div>
     </div>
   </ion-footer>
 

@@ -1,3 +1,71 @@
-<p>
-  cart works!
-</p>
+<ion-content>
+  <div class="section-container">
+
+    <div class="head">
+      <ion-icon (click)="goToHome()" name="chevron-back-outline"></ion-icon>
+      <h1>Cart</h1>
+    </div>
+
+    <div class="cards-container" *ngIf="cartItems.length > 0; else emptyCart">
+      <ion-card class="product-card" *ngFor="let item of cartItems">
+        <img src="assets/images/Rectangle 319.png" alt="Product Image" />
+
+        <ion-card-content>
+          <div class="product-info">
+            <h2>{{ item.name }}</h2>
+            <div class="price-section">
+              <p class="price">
+                <span>{{ item.price }}</span>
+                <span class="weight">/ kg</span>
+              </p>
+            </div>
+          </div>
+
+          <div class="button-group">
+            <button class="g-1" fill="clear" (click)="decreaseQuantity(item)">
+              <img src="assets/images/Vector copy 3.png" alt="Minus" />
+            </button>
+            <button class="g-2" fill="clear">
+              <p>{{ item.quantity }}</p>
+            </button>
+            <button class="g-1" fill="clear" (click)="increaseQuantity(item)">
+              <img class="p" src="assets/images/Group 780.png" alt="Plus" />
+            </button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <ng-template #emptyCart>
+      <div class="empty-cart">
+        <p>Your cart is empty.</p>
+      </div>
+    </ng-template>
+
+    <div class="total">
+      <div class="p1">
+        <div class="pairs">
+          <p>Quantity:</p>
+          <p>{{getQuantity()}}</p>
+        </div>
+        <div class="pairs">
+          <p>Total:</p>
+          <p>{{getTotal()}}</p>
+        </div>
+        <div class="pairs">
+          <p>Estimated Delivery:</p>
+          <p>FREE</p>
+        </div>
+      </div>
+      <div class="pairs2">
+        <p>Subtotal:</p>
+        <p>{{getTotal()}}</p>
+      </div>
+    </div>
+
+    <ion-button class="end" fill="clear">
+      Checkout
+    </ion-button>
+
+  </div>
+</ion-content>
