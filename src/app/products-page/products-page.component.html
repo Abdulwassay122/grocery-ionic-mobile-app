@@ -8,7 +8,7 @@
     <img src="../../assets/images/Group3.png" alt="" />
   </div>
   <div class="cart">
-   <ion-icon class="logo" name="cart-outline"></ion-icon>
+    <ion-icon class="logo" name="cart-outline"></ion-icon>
   </div>
 </ion-header>
 
@@ -124,6 +124,13 @@
         </div>
       </ion-card-content>
     </ion-card>
-    
+
   </div>
+  <div *ngIf="!loading && posts; else loadingTemp"></div>
+  <ng-template #loadingTemp>
+    <div class="loading-wrapper">
+      <ion-spinner name="crescent" color="light"></ion-spinner>
+      <p>Loading product details...</p>
+    </div>
+  </ng-template>
 </ion-content>

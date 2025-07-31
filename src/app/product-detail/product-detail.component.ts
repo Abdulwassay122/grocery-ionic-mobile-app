@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { register } from 'swiper/element/bundle';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, IonicModule } from '@ionic/angular';
 import { ApiService } from '../api.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { NavigationService } from '../navigation.service';
+import { IonSpinner } from '@ionic/angular/standalone';
+import { ToastController } from '@ionic/angular';
+
 
 register();
 @Component({
@@ -13,14 +16,14 @@ register();
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.scss'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [CommonModule]
+  imports: [CommonModule, IonSpinner]
 })
 export class ProductDetailComponent implements OnInit {
   loading: boolean = true
   product: any = null;
   quantity: number = 1;
   selectedVariant: any;
-  constructor(private navigationService: NavigationService, private navCtrl: NavController, private route: ActivatedRoute, private apiService: ApiService) { }
+  constructor(private toastController: ToastController, private navigationService: NavigationService, private navCtrl: NavController, private route: ActivatedRoute, private apiService: ApiService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -38,7 +41,15 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
-
+  async presentToast(message: string, color: 'success' | 'danger' | 'warning' | 'primary') {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000, 
+      position: 'top',
+      color,
+    });
+    toast.present();
+  }
   fetchProduct(id: string) {
     console.log('Fetching product with ID:', id);
 
@@ -67,11 +78,11 @@ export class ProductDetailComponent implements OnInit {
 
           this.selectedVariant = variants[0];
         } else {
-          console.warn('❌ Product not found in response');
+          console.warn(' Product not found in response');
         }
       },
       error: (err) => {
-        console.error('❌ API Error:', err);
+        console.error(' API Error:', err);
       }
     });
     this.loading = false
@@ -80,7 +91,7 @@ export class ProductDetailComponent implements OnInit {
 
   selectVariant(variant: any) {
     this.selectedVariant = variant;
-    console.log(variant)
+    console.log("Selected Variant: ", this.selectedVariant.id)
   }
 
   goToBack() {
@@ -106,6 +117,34 @@ export class ProductDetailComponent implements OnInit {
     } else {
       this.quantity = 1
     }
+  }
+
+  // Add To Cart 
+  async initializeCart() {
+    let cartId = localStorage.getItem('cart_id');
+    if (!cartId) {
+      const res: any = await this.apiService.createCart().toPromise();
+      cartId = res.data.cartCreate.cart.id;
+      localStorage.setItem('cart_id', cartId || '');
+    }
+    return cartId as string;
+  }
+  async addToCart(variantId: string, quantity: number) {
+    this.loading = true;
+    try {
+      const cartId: string = await this.initializeCart();
+
+      const res: any = await this.apiService.addToCart(cartId, variantId, quantity).toPromise();
+      console.log('Cart updated', res);
+      this.presentToast('Item added to cart', 'primary')
+    } catch (error) {
+      console.error('Add to cart error:', error);
+    } finally {
+      this.loading = false; // ✅ Now it waits for request to finish
+    }
+  }
+  AddToCart() {
+    this.addToCart(this.selectedVariant.id, this.quantity)
   }
 
 }

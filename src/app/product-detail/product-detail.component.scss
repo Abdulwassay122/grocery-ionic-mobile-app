@@ -242,7 +242,7 @@ ion-content {
 
 ion-footer {
   // position: absolute;
-  // bottom: 0;
+  bottom: 0;
   // margin-top: 86px;
   height: 86px;
   width: 100%;
@@ -329,9 +329,15 @@ ion-footer {
     border-color: #4caf50;
   }
 }
-ng-template{
-  color: #333;
-  loading-wrapper{
-    background: #0EB177;
-  }
+
+.loading-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4); // translucent black
+  z-index: 1000;
+  color: #fff;
 }

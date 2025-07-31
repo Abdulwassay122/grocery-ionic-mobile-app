@@ -9,8 +9,8 @@
     align-items: center;
     gap: 10px;
 
-    button{
-      ion-icon{
+    button {
+      ion-icon {
         color: #bdbdbd;
         height: 20px;
         width: 20px;
@@ -127,23 +127,26 @@
       display: grid;
       grid-template-columns: auto auto;
       padding: 20px;
+
       ion-card {
         height: 251px;
         width: fit-content;
         box-shadow: 0 2px 8px rgba(128, 128, 128, 0.2);
         border-radius: 10px;
 
-        .image-container{
+        .image-container {
           position: relative;
           width: 157px;
           display: flex;
           justify-content: center;
           align-items: center;
-          img{
+
+          img {
             height: 131px;
             width: auto;
           }
-          div.fav{
+
+          div.fav {
             position: absolute;
             color: white;
             z-index: 1;
@@ -156,12 +159,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            img{
+
+            img {
               height: 20px;
               width: 20px;
             }
           }
         }
+
         ion-card-content {
           padding-left: 12px;
           padding-top: 4px;
@@ -229,7 +234,8 @@
               display: flex;
               align-items: center;
               justify-content: center;
-              ion-icon{
+
+              ion-icon {
                 height: 20px;
                 width: 20px;
               }
@@ -240,5 +246,16 @@
 
     }
 
+   .loading-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4); // translucent black
+  z-index: 1000;
+  color: #fff;
+}
 
   }

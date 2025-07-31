@@ -16,7 +16,14 @@
 
  @import "@ionic/angular/css/core.css";
 
-
+:root {
+  --ion-color-primary: #4caf50;
+  --ion-color-primary-rgb: 0, 102, 0;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #4caf50;
+  --ion-color-primary-tint: #4caf50;
+}
 /* Basic CSS for apps built with Ionic */
 @import "@ionic/angular/css/normalize.css";
 @import "@ionic/angular/css/structure.css";

@@ -1,4 +1,4 @@
-<ion-content>
+<ion-content *ngIf="!loading">
   <div class="section-container">
 
     <div class="head">
@@ -6,51 +6,58 @@
       <h1>Cart</h1>
     </div>
 
-    <div class="cards-container" *ngIf="cartItems.length > 0; else emptyCart">
-      <ion-card class="product-card" *ngFor="let item of cartItems">
-        <img src="assets/images/Rectangle 319.png" alt="Product Image" />
+    <div class="cards-container" *ngIf="cartItems.length > 0; else emptyTemp">
+      <ion-item-sliding *ngFor="let item of cartItems">
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="removeItem(item)">
+            <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
 
-        <ion-card-content>
-          <div class="product-info">
-            <h2>{{ item.name }}</h2>
-            <div class="price-section">
-              <p class="price">
-                <span>{{ item.price }}</span>
-                <span class="weight">/ kg</span>
-              </p>
-            </div>
-          </div>
+        <ion-item lines="none">
+          <ion-card class="product-card">
+            <img [src]="item.image" alt="Product Image" />
 
-          <div class="button-group">
-            <button class="g-1" fill="clear" (click)="decreaseQuantity(item)">
-              <img src="assets/images/Vector copy 3.png" alt="Minus" />
-            </button>
-            <button class="g-2" fill="clear">
-              <p>{{ item.quantity }}</p>
-            </button>
-            <button class="g-1" fill="clear" (click)="increaseQuantity(item)">
-              <img class="p" src="assets/images/Group 780.png" alt="Plus" />
-            </button>
-          </div>
-        </ion-card-content>
-      </ion-card>
+            <ion-card-content>
+              <div class="product-info">
+                <h2>{{ item.name }}</h2>
+                <div class="price-section">
+                  <p class="price">
+                    <span>{{ item.price }}</span>
+                    <span class="weight">/ kg</span>
+                  </p>
+                  <p>Quality : {{item.quality}}</p>
+                </div>
+              </div>
+
+              <div class="button-group">
+                <button class="g-1" fill="clear" (click)="decreaseQuantity(item)">
+                  <ion-icon name="remove-outline"></ion-icon>
+                </button>
+                <button class="g-2" fill="clear">
+                  <p>{{ item.quantity }}</p>
+                </button>
+                <button class="g-1" fill="clear" (click)="AddToCart(item.id)">
+                  <ion-icon name="add-outline"></ion-icon>
+                </button>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-item>
+      </ion-item-sliding>
+
     </div>
 
-    <ng-template #emptyCart>
-      <div class="empty-cart">
-        <p>Your cart is empty.</p>
-      </div>
-    </ng-template>
 
     <div class="total">
       <div class="p1">
         <div class="pairs">
           <p>Quantity:</p>
-          <p>{{getQuantity()}}</p>
+          <p>{{cart.totalQuantity || 0}}</p>
         </div>
         <div class="pairs">
           <p>Total:</p>
-          <p>{{getTotal()}}</p>
+          <p>{{getTotal() || 0}}</p>
         </div>
         <div class="pairs">
           <p>Estimated Delivery:</p>
@@ -59,13 +66,26 @@
       </div>
       <div class="pairs2">
         <p>Subtotal:</p>
-        <p>{{getTotal()}}</p>
+        <p>{{getTotal() || 0}}</p>
       </div>
     </div>
 
-    <ion-button class="end" fill="clear">
+
+    <ion-button (click)="openCheckout()" *ngIf="cartItems.length > 0"  class="end" fill="clear">
       Checkout
     </ion-button>
 
   </div>
 </ion-content>
+
+
+<ng-template #emptyTemp>
+  <p class="empty">Cart is Empty</p>
+</ng-template>
+<div *ngIf="!loading; else loadingTemp"></div>
+<ng-template #loadingTemp>
+  <div class="loading-wrapper">
+    <ion-spinner name="crescent" color="light"></ion-spinner>
+    <p>Loading product details...</p>
+  </div>
+</ng-template>

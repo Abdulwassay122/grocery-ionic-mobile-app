@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonInput, IonItem } from '@ionic/angular/standalone';
+import { IonHeader, IonContent, IonInput,  IonIcon , IonCardContent, IonCard} from '@ionic/angular/standalone';
 import { register } from 'swiper/element/bundle';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -13,11 +13,13 @@ register();
   selector: 'app-products-page',
   templateUrl: './products-page.component.html',
   styleUrls: ['./products-page.component.scss'],
-  imports: [CommonModule, IonHeader, IonContent, IonInput, RouterModule],
+  imports: [CommonModule, IonHeader, IonContent, IonInput, RouterModule, IonIcon, IonCardContent, IonCard],
   standalone: true,
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ProductsPageComponent implements OnInit {
+
+  loading: boolean = true
 
   posts: any[] = [];
 
@@ -51,6 +53,7 @@ export class ProductsPageComponent implements OnInit {
 
       console.log("Loaded products:", this.posts);
     });
+    this.loading = false
   }
 
 }

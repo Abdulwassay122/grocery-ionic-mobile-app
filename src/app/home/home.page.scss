@@ -248,7 +248,7 @@ ion-content {
 
   // 04 deals section
   .deals {
-    padding-left: 20px;
+    padding-left: 15px;
     padding-top: 21px;
     margin-bottom: 10px;
     display: flex;
@@ -290,6 +290,9 @@ ion-content {
       width: 100%;
 
       swiper-slide {
+        --margin: 0;
+        --padding: 0;
+
         ion-card {
           height: 251px;
           width: fit-content;
@@ -408,7 +411,6 @@ ion-content {
         }
 
         width: fit-content;
-        margin-right: 13px;
       }
     }
   }
@@ -420,7 +422,7 @@ ion-content {
 ion-footer {
   height: 86px;
   width: 100vw;
-  padding: 29px 37px env(safe-area-inset-bottom);
+  padding: 29px 37px;
   z-index: 20;
 
   // Rounded top corners

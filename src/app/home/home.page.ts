@@ -1,24 +1,25 @@
 import { Component } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonInput, IonItem } from '@ionic/angular/standalone';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonInput, IonItem, IonIcon, IonFooter } from '@ionic/angular/standalone';
 import { NavController } from '@ionic/angular';
 import { register } from 'swiper/element/bundle';
 import { ApiService } from '../api.service';
 import { CommonModule } from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 register();
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  imports: [CommonModule, IonHeader, IonToolbar, IonTitle, IonContent, IonInput, IonItem],
+  imports: [CommonModule, IonHeader, IonToolbar, IonTitle, IonContent, IonInput, IonItem, IonIcon, IonFooter],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
+
 })
 export class HomePage {
   posts: any[] = [];
 
   constructor(private navCtrl: NavController, private apiService: ApiService) { }
-  
+
   ngOnInit(): void {
     this.apiService.getPosts().subscribe((res: any) => {
       const edges = res?.data?.products?.edges || [];
@@ -39,7 +40,7 @@ export class HomePage {
       console.log("Loaded products:", this.posts);
     });
   }
-  
+
   goToProducts() {
     this.navCtrl.navigateForward(['/products']);
   }
@@ -48,9 +49,9 @@ export class HomePage {
   }
   goToProductdetail(productId: string) {
     const activeElement = document.activeElement as HTMLElement;
-  if (activeElement && typeof activeElement.blur === 'function') {
-    activeElement.blur();
-  }
+    if (activeElement && typeof activeElement.blur === 'function') {
+      activeElement.blur();
+    }
     this.navCtrl.navigateForward(['/productdetail'], {
       queryParams: { id: productId }
     });

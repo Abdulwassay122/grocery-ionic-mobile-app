@@ -1,4 +1,4 @@
-<ion-content *ngIf="!loading && product; else loadingTemp">
+<ion-content *ngIf="!loading && product">
   <!-- Product Images -->
   <div class="carousel">
     <div class="back-n-fav">
@@ -83,12 +83,13 @@
     <button class="g-2" fill="clear"><p>{{quantity}}</p></button>
     <button class="g-1" fill="clear" (click)="increaseQuantity()"><ion-icon name="add-outline"></ion-icon></button>
   </div>
-  <button fill="clear">Add to Cart</button>
+  <button (click)="AddToCart()" fill="clear">Add to Cart</button>
 </ion-footer>
 
+<div *ngIf="!loading && product; else loadingTemp"></div>
 <ng-template #loadingTemp>
   <div class="loading-wrapper">
-    <ion-spinner name="lines-sharp"></ion-spinner>
+    <ion-spinner name="crescent" color="light"></ion-spinner>
     <p>Loading product details...</p>
   </div>
 </ng-template>

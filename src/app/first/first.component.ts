@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import { register } from 'swiper/element/bundle';
+import { IonButton, IonContent } from '@ionic/angular/standalone';
+
 
 register();
 @Component({
   selector: 'app-first',
   templateUrl: './first.component.html',
   styleUrls: ['./first.component.scss'],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
-
+  imports:[IonButton, IonContent]
 })
 export class FirstComponent implements OnInit {
 
