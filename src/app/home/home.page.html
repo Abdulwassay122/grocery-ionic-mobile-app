@@ -36,7 +36,7 @@
   <div class="half-bg-box">
     <div class="half-bg"></div>
     <div class="slider">
-      <swiper-container slides-per-view="auto" space-between="">
+      <swiper-container slides-per-view="auto" autoplay >
         <swiper-slide><img src="../../assets/images/Frame 169.png" /></swiper-slide>
         <swiper-slide><img src="../../assets/images/Frame 169.png" /></swiper-slide>
         <swiper-slide><img src="../../assets/images/Frame 169.png" /></swiper-slide>
@@ -132,7 +132,7 @@
   </div>
 
   <!-- Special Deal -->
-  <div class="deals">
+  <div class="deals" *ngIf="posts && posts.length > 0; else dealsSkeleton">
     <div class="head">
       <h2>Top Products</h2>
       <ion-button fill="clear" (click)="goToProducts()"> <span>See more</span> <span><ion-icon
@@ -145,7 +145,6 @@
             <img *ngIf="product.imageUrl" [src]="product.imageUrl" [alt]="product.altText" />
             <div class="fav"><ion-icon name="heart-outline"></ion-icon></div>
           </div>
-
           <ion-card-content>
             <h2>{{product.title}}</h2>
             <div class="price-section">
@@ -187,3 +186,42 @@
   </ion-footer>
 
 </div>
+
+<ng-template #dealsSkeleton>
+  <div class="deals">
+    <div class="head">
+      <ion-skeleton-text animated style="width: 120px; height: 24px; border-radius: 4px;"></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 60px; height: 24px; border-radius: 4px;"></ion-skeleton-text>
+    </div>
+
+    <swiper-container slides-per-view="auto">
+      <swiper-slide *ngFor="let i of [1,2,3,4]">
+        <ion-card class="product-card">
+          <div class="image-container">
+            <ion-skeleton-text animated style="width: 157px; height: 131px; border-radius: 10px;"></ion-skeleton-text>
+            <div class="fav">
+              <ion-icon name="heart-outline"></ion-icon>
+            </div>
+          </div>
+          <ion-card-content>
+            <h2>
+              <ion-skeleton-text animated style="width: 80%; height: 18px;"></ion-skeleton-text>
+            </h2>
+            <div class="price-section">
+              <p class="price">
+                <ion-skeleton-text animated style="width: 60px; height: 16px;"></ion-skeleton-text>
+                <span class="weight">/ kg</span>
+              </p>
+              <p class="cut-price">
+                <ion-skeleton-text animated style="width: 50px; height: 12px;"></ion-skeleton-text>
+              </p>
+            </div>
+            <div class="add">
+              <ion-skeleton-text animated style="width: 29px; height: 29px; border-radius: 10px;"></ion-skeleton-text>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </swiper-slide>
+    </swiper-container>
+  </div>
+</ng-template>

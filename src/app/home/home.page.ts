@@ -18,6 +18,8 @@ register();
 export class HomePage {
   posts: any[] = [];
 
+  loading : boolean = true
+
   constructor(private navCtrl: NavController, private apiService: ApiService) { }
 
   ngOnInit(): void {
@@ -38,6 +40,7 @@ export class HomePage {
       });
 
       console.log("Loaded products:", this.posts);
+      this.loading = false
     });
   }
 

@@ -276,5 +276,59 @@ export class ApiService {
     });
   }
 
+  //  Authentication 
+  // customerCreate Sign up
+  createCustomer(email: string, password: string, firstName?: string, lastName?: string) {
+    const query = `
+    mutation customerCreate($input: CustomerCreateInput!) {
+      customerCreate(input: $input) {
+        customer {
+          id
+          email
+          firstName
+          lastName
+        }
+        customerUserErrors {
+          field
+          message
+        }
+      }
+    }
+  `;
 
+    const variables = {
+      input: {
+        email,
+        password,
+        ...(firstName && { firstName }),
+        ...(lastName && { lastName })
+      }
+    };
+
+    return this.http.post(this.apiUrl, { query, variables }, { headers: this.getHeaders() });
+  }
+
+  // to Signup User 
+  signInCustomer(email: string, password: string) {
+    const query = `
+    mutation customerAccessTokenCreate($input: CustomerAccessTokenCreateInput!) {
+      customerAccessTokenCreate(input: $input) {
+        customerAccessToken {
+          accessToken
+          expiresAt
+        }
+        customerUserErrors {
+          field
+          message
+        }
+      }
+    }
+  `;
+
+    const variables = {
+      input: { email, password }
+    };
+
+    return this.http.post(this.apiUrl, { query, variables }, { headers: this.getHeaders() });
+  }
 }

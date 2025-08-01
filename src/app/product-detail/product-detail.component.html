@@ -1,4 +1,6 @@
-<ion-content *ngIf="!loading && product">
+<app-header></app-header>
+
+<ion-content *ngIf="!loading && product; else loadingTemp">
   <!-- Product Images -->
   <div class="carousel">
     <div class="back-n-fav">
@@ -33,9 +35,7 @@
     <div class="variant-selector" *ngIf="product?.variants?.length > 1">
       <label>Select Quality:</label>
       <div class="variant-buttons">
-        <button
-          *ngFor="let variant of product.variants"
-          [class.selected]="selectedVariant?.id === variant.id"
+        <button *ngFor="let variant of product.variants" [class.selected]="selectedVariant?.id === variant.id"
           (click)="selectVariant(variant)">
           {{ variant.title }}
         </button>
@@ -46,7 +46,8 @@
   <!-- Product Info -->
   <div class="product-info">
     <div class="head">
-      <h3>Description <div class="bar"></div></h3>
+      <h3>Description <div class="bar"></div>
+      </h3>
       <h3>Nutrition facts</h3>
     </div>
     <p class="content">{{ product.description }}</p>
@@ -79,17 +80,83 @@
 
 <ion-footer>
   <div class="button-group">
-    <button class="g-1" fill="clear"  (click)="decreaseQuantity()"><ion-icon name="remove-outline"></ion-icon></button>
-    <button class="g-2" fill="clear"><p>{{quantity}}</p></button>
+    <button class="g-1" fill="clear" (click)="decreaseQuantity()"><ion-icon name="remove-outline"></ion-icon></button>
+    <button class="g-2" fill="clear">
+      <p>{{quantity}}</p>
+    </button>
     <button class="g-1" fill="clear" (click)="increaseQuantity()"><ion-icon name="add-outline"></ion-icon></button>
   </div>
   <button (click)="AddToCart()" fill="clear">Add to Cart</button>
 </ion-footer>
 
-<div *ngIf="!loading && product; else loadingTemp"></div>
 <ng-template #loadingTemp>
+  <ion-content>
+    <!-- Skeleton Carousel -->
+    <div class="carousel">
+      <div class="back-n-fav">
+        <ion-skeleton-text animated style="width: 24px; height: 24px; border-radius: 50%;"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 24px; height: 24px; border-radius: 50%;"></ion-skeleton-text>
+      </div>
+
+      <swiper-container slides-per-view="1" pagination="true">
+        <swiper-slide>
+          <ion-skeleton-text animated style="width: 100%; height: 350px; border-radius: 12px;"></ion-skeleton-text>
+        </swiper-slide>
+      </swiper-container>
+    </div>
+
+    <!-- Skeleton Product Details -->
+    <div class="product-details">
+      <ion-skeleton-text animated
+        style="width: 80px; height: 20px; border-radius: 8px; margin-bottom: 10px;"></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 70%; height: 26px; border-radius: 6px;"></ion-skeleton-text>
+      <ion-skeleton-text animated
+        style="width: 60%; height: 22px; border-radius: 6px; margin-top: 10px;"></ion-skeleton-text>
+    </div>
+
+    <!-- Skeleton Variant Selector -->
+    <div class="variant-selector">
+      <ion-skeleton-text animated style="width: 100px; height: 18px; margin-bottom: 10px;"></ion-skeleton-text>
+      <div class="variant-buttons" style="display: flex; gap: 10px;">
+        <ion-skeleton-text animated style="width: 70px; height: 30px; border-radius: 6px;"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 70px; height: 30px; border-radius: 6px;"></ion-skeleton-text>
+      </div>
+    </div>
+
+    <!-- Skeleton Description -->
+    <div class="product-info">
+      <div class="head" style="display: flex; justify-content: space-between;">
+        <ion-skeleton-text animated style="width: 120px; height: 18px;"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 100px; height: 18px;"></ion-skeleton-text>
+      </div>
+      <ion-skeleton-text animated
+        style="width: 100%; height: 60px; border-radius: 8px; margin-top: 10px;"></ion-skeleton-text>
+    </div>
+
+    <!-- Skeleton Related Products -->
+    <div class="related-products">
+      <ion-skeleton-text animated style="width: 150px; height: 22px; margin-bottom: 10px;"></ion-skeleton-text>
+      <swiper-container slides-per-view="auto">
+        <swiper-slide *ngFor="let i of [1,2,3]">
+          <ion-card class="product-card">
+            <div class="image-container">
+              <ion-skeleton-text animated style="width: 157px; height: 131px; border-radius: 10px;"></ion-skeleton-text>
+            </div>
+            <ion-card-content>
+              <ion-skeleton-text animated style="width: 80%; height: 18px;"></ion-skeleton-text>
+              <ion-skeleton-text animated style="width: 50%; height: 16px; margin-top: 8px;"></ion-skeleton-text>
+            </ion-card-content>
+          </ion-card>
+        </swiper-slide>
+      </swiper-container>
+    </div>
+  </ion-content>
+</ng-template>
+
+<div *ngIf="!loading2; else loadingTemp2"></div>
+<ng-template #loadingTemp2>
   <div class="loading-wrapper">
     <ion-spinner name="crescent" color="light"></ion-spinner>
-    <p>Loading product details...</p>
+    <p>Adding to Cart ...</p>
   </div>
 </ng-template>

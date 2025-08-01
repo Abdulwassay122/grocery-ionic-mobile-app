@@ -158,17 +158,20 @@ ion-content {
 
     .slider {
       position: relative;
-      z-index: 1;
+      z-index: 10;
       height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding-left: 1rem;
       padding-top: 1rem;
 
       swiper-container {
         width: 100%;
         display: flex;
+
+        swiper-slide:first-child {
+          padding-left: 1rem;
+        }
 
         swiper-slide {
           padding-right: 18px;
@@ -191,7 +194,6 @@ ion-content {
   // 03 categories section
   .categories-section {
     border-bottom: 1px solid #BDBDBD;
-    padding-left: 28px;
     padding-top: 60px;
     padding-bottom: 48px;
     display: flex;
@@ -203,10 +205,19 @@ ion-content {
       font-weight: 600;
       color: #333333;
       margin: 0;
+      padding-left: 1rem;
     }
 
     .categories {
       width: 100%;
+
+      .category:first-child {
+        padding-left: 1rem;
+      }
+
+      .category:last-child {
+        padding-right: 1rem;
+      }
 
       .category {
         display: flex;
@@ -248,14 +259,17 @@ ion-content {
 
   // 04 deals section
   .deals {
-    padding-left: 15px;
+    z-index: 50;
+    padding-left: 0;
+    padding-right: 0;
     padding-top: 21px;
-    margin-bottom: 10px;
+    padding-bottom: 30px;
     display: flex;
     flex-direction: column;
     gap: 16px;
 
     .head {
+      padding-left: 15px;
       padding-right: 14px;
       display: flex;
       align-items: center;
@@ -268,6 +282,12 @@ ion-content {
       }
 
       ion-button {
+        padding: 0 !important;
+        margin: 0 !important;
+        min-height: unset !important;
+        min-width: unset !important;
+        --padding-start: 0 !important;
+        --padding-end: 0 !important;
         text-transform: none;
         font-size: 13px;
         display: flex;
@@ -286,14 +306,21 @@ ion-content {
     }
 
     swiper-container {
-      padding-right: 10px;
+      padding-right: 0px;
       width: 100%;
+      margin: 0;
+      padding: 0;
 
+      swiper-slide:last-child{
+        padding-right: 1rem;
+      }
       swiper-slide {
-        --margin: 0;
-        --padding: 0;
+        padding-left: 1rem;
+        margin: 0;
 
         ion-card {
+          margin: 0;
+          padding: 0;
           height: 251px;
           width: fit-content;
           box-shadow: 0 2px 8px rgba(128, 128, 128, 0.2);
@@ -333,6 +360,7 @@ ion-content {
           }
 
           ion-card-content {
+            margin: 0;
             padding-left: 12px;
             padding-top: 4px;
             padding-bottom: 10px;
@@ -399,7 +427,7 @@ ion-content {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                
+
                 ion-icon {
                   color: #4CAD73;
                   height: 20px;
@@ -461,34 +489,4 @@ ion-footer {
       }
     }
   }
-}
-
-
-
-
-
-
-// for pagination for swiper
-swiper-container::part(pagination) {
-  position: absolute;
-  bottom: 10px;
-  left: 0;
-  right: 0;
-  text-align: center;
-  z-index: 10;
-}
-
-swiper-container::part(bullet) {
-  width: 8px;
-  height: 8px;
-  background-color: #bbb;
-  margin: 0 4px;
-  border-radius: 50%;
-  opacity: 0.5;
-}
-
-
-swiper-container::part(bullet-active) {
-  background-color: #14790a;
-  opacity: 1;
 }

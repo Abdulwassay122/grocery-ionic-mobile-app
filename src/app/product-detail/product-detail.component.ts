@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NavigationService } from '../navigation.service';
 import { IonSpinner } from '@ionic/angular/standalone';
 import { ToastController } from '@ionic/angular';
+import { HeaderComponent } from '../header/header.component';
 
 
 register();
@@ -16,17 +17,18 @@ register();
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.scss'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [CommonModule, IonSpinner]
+  imports: [CommonModule, IonSpinner, HeaderComponent]
 })
 export class ProductDetailComponent implements OnInit {
   loading: boolean = true
+  loading2: boolean = false
   product: any = null;
   quantity: number = 1;
   selectedVariant: any;
   constructor(private toastController: ToastController, private navigationService: NavigationService, private navCtrl: NavController, private route: ActivatedRoute, private apiService: ApiService) { }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params:any) => {
       console.log('Query Params:', params);
 
       const productId = params['id'];
@@ -45,7 +47,7 @@ export class ProductDetailComponent implements OnInit {
     const toast = await this.toastController.create({
       message,
       duration: 2000, 
-      position: 'top',
+      position: 'bottom',
       color,
     });
     toast.present();
@@ -130,7 +132,7 @@ export class ProductDetailComponent implements OnInit {
     return cartId as string;
   }
   async addToCart(variantId: string, quantity: number) {
-    this.loading = true;
+    this.loading2 = true;
     try {
       const cartId: string = await this.initializeCart();
 
@@ -140,7 +142,7 @@ export class ProductDetailComponent implements OnInit {
     } catch (error) {
       console.error('Add to cart error:', error);
     } finally {
-      this.loading = false; // ✅ Now it waits for request to finish
+      this.loading2 = false
     }
   }
   AddToCart() {

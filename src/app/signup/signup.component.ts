@@ -4,7 +4,7 @@ import { register } from 'swiper/element/bundle';
 import { CommonModule } from '@angular/common'; 
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
-import { IonLabel, IonItem, IonContent, IonButton, IonInput } from '@ionic/angular/standalone';
+import { IonLabel, IonItem, IonContent, IonButton, IonInput, IonIcon } from '@ionic/angular/standalone';
 
 
 register();
@@ -12,9 +12,11 @@ register();
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss'],
-  imports:[CommonModule, IonInput, FormsModule, FormsModule, IonLabel, IonItem, IonContent, IonButton, IonInput]
+  imports:[CommonModule, IonInput, FormsModule, FormsModule, IonLabel, IonItem, IonContent, IonButton, IonInput, IonIcon ]
 })
 export class SignupComponent implements OnInit {
+  firstname = '';
+  lastname = '';
   email = '';
   password = '';
   showPassword = false;
@@ -27,5 +29,9 @@ export class SignupComponent implements OnInit {
     this.navCtrl.navigateBack(['/first']);
   }
   ngOnInit() { }
+
+  onSignUp(){
+    console.log(this.firstname, this.lastname, this.email, this.password)
+  }
 
 }

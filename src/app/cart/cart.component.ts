@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { register } from 'swiper/element/bundle';
 import { ApiService } from '../api.service';
 import { Browser } from '@capacitor/browser';
+import { NavigationService } from '../navigation.service';
 
 register();
 @Component({
@@ -17,14 +18,17 @@ register();
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss'],
 })
+
 export class CartComponent implements OnInit {
 
   cart: any = null
   cartItems: any[] = [];
+  externalUrl: string = '';
+  loading : boolean = true;
+  loading2 : boolean = false;
 
-  loading = true;
 
-  constructor(private navCtrl: NavController, private apiService: ApiService) { }
+  constructor(private navCtrl: NavController, private apiService: ApiService, private navigationService: NavigationService) { }
 
   ngOnInit() {
     this.loadCart()
@@ -94,7 +98,14 @@ export class CartComponent implements OnInit {
 
 
   goToHome() {
-    this.navCtrl.navigateBack(['/home']);
+    const previousRoute = this.navigationService.getPreviousUrl();
+
+    if (previousRoute) {
+      this.navCtrl.navigateBack([previousRoute]);
+    } else {
+      // Fallback if there's no previous route (e.g., first page load)
+      this.navCtrl.navigateBack(['/home']);
+    }
   }
 
   getQuantity() {
@@ -104,9 +115,6 @@ export class CartComponent implements OnInit {
     return this.cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   }
 
-  increaseQuantity(item: any) {
-    item.quantity++;
-  }
 
   // Add To Cart 
   async initializeCart() {
@@ -115,35 +123,36 @@ export class CartComponent implements OnInit {
       const res: any = await this.apiService.createCart().toPromise();
       cartId = res.data.cartCreate.cart.id;
       localStorage.setItem('cart_id', cartId || '');
-      this.loading = false;
+      this.loading2 = false;
     }
     return cartId as string;
   }
   async addToCart(variantId: string, quantity: number) {
-    this.loading = true;
+    this.loading2 = true;
     try {
       const cartId: string = await this.initializeCart();
 
-      // 👇 Convert observable to promise
+      // Convert observable to promise
       const res: any = await this.apiService.addToCart(cartId, variantId, quantity).toPromise();
       console.log('Cart updated', res);
       this.loadCart()
     } catch (error) {
       console.error('Add to cart error:', error);
     } finally {
-      this.loading = false;
+      this.loading2 = false;
     }
   }
   AddToCart(id: string) {
     this.addToCart(id, 1)
   }
+  
 
   // remove item from cart 
   removeItem(item: any) {
     const cartId = localStorage.getItem("cart_id");
     if (!cartId) return;
 
-    this.loading = true;
+    this.loading2 = true;
     this.apiService.removeCartItem(cartId, item.Lineid).subscribe({
       next: (res: any) => {
         this.cartItems = this.cartItems.filter(i => i.Lineid !== item.Lineid);
@@ -151,7 +160,7 @@ export class CartComponent implements OnInit {
       },
       error: (err) => {
         console.error('Failed to remove item:', err);
-        this.loading = false;
+        this.loading2 = false;
       }
     });
   }
@@ -160,7 +169,7 @@ export class CartComponent implements OnInit {
     const cartId = localStorage.getItem("cart_id");
     if (!cartId) return;
 
-    this.loading = true;
+    this.loading2 = true;
 
     if (item.quantity > 1) {
       const newQty = item.quantity - 1;
@@ -168,11 +177,11 @@ export class CartComponent implements OnInit {
         next: (res: any) => {
           item.quantity = newQty;
           this.loadCart();
-          this.loading = false;
+          this.loading2 = false;
         },
         error: (err: any) => {
           console.error('Failed to update quantity:', err);
-          this.loading = false;
+          this.loading2 = false;
         }
       });
     } else {
@@ -180,32 +189,18 @@ export class CartComponent implements OnInit {
         next: (res: any) => {
           this.cartItems = this.cartItems.filter(i => i.id !== item.Lineid);
           this.loadCart();
-          this.loading = false;
+          this.loading2 = false;
         },
         error: (err) => {
           console.error('Failed to remove item:', err);
-          this.loading = false;
+          this.loading2 = false;
         }
       });
     }
   }
 
   async openCheckout() {
-    console.log(this.cart.checkoutUrl)
-    // const checkoutUrl = this.cart?.checkoutUrl;
-
-    // if (!checkoutUrl) {
-    //   console.warn('Checkout URL is not available.');
-    //   return;
-    // }
-
-    // try {
-    //   await Browser.open({
-    //     url: checkoutUrl,
-    //     presentationStyle: 'fullscreen', // iOS only
-    //   });
-    // } catch (error) {
-    //   console.error('Browser failed to open:', error);
-    // }
+    await Browser.open({ url: this.cart.checkoutUrl });
   }
 }
+

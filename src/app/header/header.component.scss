@@ -1,0 +1,60 @@
+ion-header {
+
+    padding-bottom: 10px;
+    padding-top: 40px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+    .search {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0px 21px;
+        gap: 15px;
+
+        .search-bar {
+            ion-icon {
+                height: 17px;
+                color: #BDBDBD;
+            }
+        }
+
+        ion-icon {
+            height: 26px;
+            width: 26px;
+            color: #fff;
+        }
+    }
+
+    ion-item.search-bar {
+        img {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+        }
+
+        padding: 0;
+
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+        ion-input {
+            font-size: 12px;
+            --padding-start: 0;
+            --padding-end: 0;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            font-family: "Montserrat Alternates", sans-serif;
+        }
+
+        width: 100%;
+        height: 36px;
+        color: #BDBDBD;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+}

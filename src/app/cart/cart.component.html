@@ -1,4 +1,4 @@
-<ion-content *ngIf="!loading">
+<ion-content>
   <div class="section-container">
 
     <div class="head">
@@ -6,50 +6,52 @@
       <h1>Cart</h1>
     </div>
 
-    <div class="cards-container" *ngIf="cartItems.length > 0; else emptyTemp">
-      <ion-item-sliding *ngFor="let item of cartItems">
-        <ion-item-options side="end">
-          <ion-item-option color="danger" (click)="removeItem(item)">
-            <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
-          </ion-item-option>
-        </ion-item-options>
+    <div class="cards-container" *ngIf="!loading; else cartSkeleton">
+      <div  *ngIf="cartItems.length > 0; else emptyTemp">
+        <ion-item-sliding *ngFor="let item of cartItems">
+          <ion-item-options side="end">
+            <ion-item-option color="danger" (click)="removeItem(item)">
+              <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
 
-        <ion-item lines="none">
-          <ion-card class="product-card">
-            <img [src]="item.image" alt="Product Image" />
+          <ion-item lines="none">
+            <ion-card class="product-card">
+              <img [src]="item.image" alt="Product Image" />
 
-            <ion-card-content>
-              <div class="product-info">
-                <h2>{{ item.name }}</h2>
-                <div class="price-section">
-                  <p class="price">
-                    <span>{{ item.price }}</span>
-                    <span class="weight">/ kg</span>
-                  </p>
-                  <p>Quality : {{item.quality}}</p>
+              <ion-card-content>
+                <div class="product-info">
+                  <h2>{{ item.name }}</h2>
+                  <div class="price-section">
+                    <p class="price">
+                      <span>{{ item.price }}</span>
+                      <span class="weight">/ kg</span>
+                    </p>
+                    <p>Quality : {{item.quality}}</p>
+                  </div>
                 </div>
-              </div>
 
-              <div class="button-group">
-                <button class="g-1" fill="clear" (click)="decreaseQuantity(item)">
-                  <ion-icon name="remove-outline"></ion-icon>
-                </button>
-                <button class="g-2" fill="clear">
-                  <p>{{ item.quantity }}</p>
-                </button>
-                <button class="g-1" fill="clear" (click)="AddToCart(item.id)">
-                  <ion-icon name="add-outline"></ion-icon>
-                </button>
-              </div>
-            </ion-card-content>
-          </ion-card>
-        </ion-item>
-      </ion-item-sliding>
-
+                <div class="button-group">
+                  <button class="g-1" fill="clear" (click)="decreaseQuantity(item)">
+                    <ion-icon name="remove-outline"></ion-icon>
+                  </button>
+                  <button class="g-2" fill="clear">
+                    <p>{{ item.quantity }}</p>
+                  </button>
+                  <button class="g-1" fill="clear" (click)="AddToCart(item.id)">
+                    <ion-icon name="add-outline"></ion-icon>
+                  </button>
+                </div>
+              </ion-card-content>
+            </ion-card>
+          </ion-item>
+        </ion-item-sliding>
+      </div>
     </div>
 
 
-    <div class="total">
+
+    <div class="total" *ngIf="!loading && cartItems.length > 0">
       <div class="p1">
         <div class="pairs">
           <p>Quantity:</p>
@@ -70,8 +72,7 @@
       </div>
     </div>
 
-
-    <ion-button (click)="openCheckout()" *ngIf="cartItems.length > 0"  class="end" fill="clear">
+    <ion-button (click)="openCheckout()" *ngIf="cartItems.length > 0" class="end" fill="clear">
       Checkout
     </ion-button>
 
@@ -82,10 +83,39 @@
 <ng-template #emptyTemp>
   <p class="empty">Cart is Empty</p>
 </ng-template>
-<div *ngIf="!loading; else loadingTemp"></div>
-<ng-template #loadingTemp>
+
+<ng-template #cartSkeleton>
+  <div class="cards-container">
+    <ion-item-sliding *ngFor="let i of [1,2,3]">
+      <ion-item lines="none">
+        <ion-card class="product-card">
+          <ion-skeleton-text animated style="width: 100%; height: 120px; border-radius: 8px;"></ion-skeleton-text>
+
+          <ion-card-content>
+            <div class="product-info">
+              <ion-skeleton-text animated style="width: 60%; height: 18px;"></ion-skeleton-text>
+              <div class="price-section" style="margin-top: 10px;">
+                <ion-skeleton-text animated style="width: 40%; height: 14px;"></ion-skeleton-text>
+                <ion-skeleton-text animated style="width: 50%; height: 14px; margin-top: 4px;"></ion-skeleton-text>
+              </div>
+            </div>
+
+            <div class="button-group" style="display: flex; gap: 8px; margin-top: 12px;">
+              <ion-skeleton-text animated style="width: 32px; height: 32px; border-radius: 6px;"></ion-skeleton-text>
+              <ion-skeleton-text animated style="width: 32px; height: 32px; border-radius: 6px;"></ion-skeleton-text>
+              <ion-skeleton-text animated style="width: 32px; height: 32px; border-radius: 6px;"></ion-skeleton-text>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-item>
+    </ion-item-sliding>
+  </div>
+</ng-template>
+
+<div *ngIf="!loading2; else loadingTemp2"></div>
+<ng-template #loadingTemp2>
   <div class="loading-wrapper">
     <ion-spinner name="crescent" color="light"></ion-spinner>
-    <p>Loading product details...</p>
+    <p></p>
   </div>
 </ng-template>

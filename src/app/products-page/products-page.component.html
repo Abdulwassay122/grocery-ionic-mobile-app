@@ -8,7 +8,7 @@
     <img src="../../assets/images/Group3.png" alt="" />
   </div>
   <div class="cart">
-    <ion-icon class="logo" name="cart-outline"></ion-icon>
+    <ion-icon (click)="goToCart()" class="logo" name="cart-outline"></ion-icon>
   </div>
 </ion-header>
 
@@ -101,7 +101,7 @@
   </div>
 
   <!-- Products  -->
-  <div class="products-section">
+  <div class="products-section" *ngIf="!loading && posts; else skeletonLoader">
     <ion-card class="product-card" *ngFor="let product of posts" (click)="goToProductdetail(product.id)">
       <div class="image-container">
         <img *ngIf="product.imageUrl" [src]="product.imageUrl" [alt]="product.altText" />
@@ -124,13 +124,36 @@
         </div>
       </ion-card-content>
     </ion-card>
-
   </div>
-  <div *ngIf="!loading && posts; else loadingTemp"></div>
-  <ng-template #loadingTemp>
-    <div class="loading-wrapper">
-      <ion-spinner name="crescent" color="light"></ion-spinner>
-      <p>Loading product details...</p>
-    </div>
-  </ng-template>
+
+  <ng-template #skeletonLoader>
+  <div class="products-section">
+    <ion-card class="product-card" *ngFor="let i of [1,2,3,4]">
+      <div class="image-container">
+        <ion-skeleton-text animated style="width: 157px; height: 131px;"></ion-skeleton-text>
+        <div class="fav">
+          <ion-icon name="heart-outline"></ion-icon>
+        </div>
+      </div>
+
+      <ion-card-content>
+        <h2>
+          <ion-skeleton-text animated style="width: 80%; height: 20px;"></ion-skeleton-text>
+        </h2>
+        <div class="price-section">
+          <p class="price">
+            <ion-skeleton-text animated style="width: 60px; height: 16px;"></ion-skeleton-text>
+            <span class="weight">/ kg</span>
+          </p>
+          <p class="cut-price">
+            <ion-skeleton-text animated style="width: 50px; height: 12px;"></ion-skeleton-text>
+          </p>
+        </div>
+        <div class="add">
+          <ion-skeleton-text animated style="width: 29px; height: 29px; border-radius: 10px;"></ion-skeleton-text>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ng-template>
 </ion-content>
