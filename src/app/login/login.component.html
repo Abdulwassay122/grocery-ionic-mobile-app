@@ -2,7 +2,7 @@
   <div class="ellipse"></div>
 
   <div class="page-container">
-    
+
     <div>
       <ion-button (click)="goToFirst()" fill="clear" class="back-button">
         <img src="assets/images/chevron-down.png" />
@@ -17,13 +17,17 @@
       <div class="inputs">
         <!-- Email -->
         <ion-item lines="none" class="input-item">
-          <ion-label position="stacked">email</ion-label>
+          <div class="ladel-cont"><ion-label position="stacked">email <span>*</span></ion-label>
+            <p *ngIf="errorEmail.length > 0">{{errorEmail}}</p>
+          </div>
           <ion-input type="email" placeholder="yourmail@mail.com" [(ngModel)]="email" class="custom-input "></ion-input>
         </ion-item>
 
         <!-- Password -->
         <ion-item lines="none" class="input-item margin-top-18">
-          <ion-label position="stacked">password</ion-label>
+          <div class="ladel-cont"><ion-label position="stacked">password <span>*</span></ion-label>
+            <p *ngIf="errorPass.length > 0">{{errorPass}}</p>
+          </div>
           <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="your password" [(ngModel)]="password"
             class="custom-input"></ion-input>
           <!-- <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'" slot="end" class="eye-icon"

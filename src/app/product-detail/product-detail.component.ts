@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { register } from 'swiper/element/bundle';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { NavController, IonicModule } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { ApiService } from '../api.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
@@ -34,10 +34,10 @@ export class ProductDetailComponent implements OnInit {
       const productId = params['id'];
 
       if (!productId) {
-        console.warn('❌ No ID found. Using fallback.');
+        console.warn(' No ID found. Using fallback.');
         this.fetchProduct('gid://shopify/Product/7256223219783'); // Fallback test ID
       } else {
-        console.log('✅ Found product ID:', productId);
+        console.log(' Found product ID:', productId);
         this.fetchProduct(productId);
       }
     });

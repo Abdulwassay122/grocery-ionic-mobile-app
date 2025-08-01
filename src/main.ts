@@ -4,7 +4,7 @@ import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalo
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 import { addIcons } from 'ionicons';
-import { trashOutline, chevronBackOutline, searchOutline, mailOutline, notificationsOutline, locationOutline, chevronDownOutline, chevronForwardOutline, homeOutline, heartOutline, cartOutline, personOutline, addOutline, removeOutline } from 'ionicons/icons';
+import { trashOutline, chevronBackOutline, searchOutline, mailOutline, notificationsOutline, locationOutline, chevronDownOutline, chevronForwardOutline, homeOutline, heartOutline, cartOutline, personOutline, addOutline, removeOutline, eyeOutline, eyeOffOutline } from 'ionicons/icons';
 import { provideHttpClient } from '@angular/common/http';
 import { PLATFORM_ID } from '@angular/core';
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
@@ -24,6 +24,8 @@ addIcons({
   'remove-outline': removeOutline,
   'add-outline': addOutline,
   'trash-outline': trashOutline,
+  'eye-outline': eyeOutline,
+  'eye-off-outline': eyeOffOutline,
 });
 bootstrapApplication(AppComponent, {
   providers: [
