@@ -101,11 +101,13 @@ export class SignupComponent implements OnInit {
               }
             } else {
               console.log('Customer created:', result.customer);
-              localStorage.setItem('customer', result.customer);
+              localStorage.setItem('customer', JSON.stringify(result.customer));
               this.firstname = '';
               this.lastname = '';
               this.email = '';
               this.password = '';
+              this.presentToast('Customer Created Successfully.', 'primary')
+              this.navCtrl.navigateForward(['/login']);
             }
           },
           error: (err) => {

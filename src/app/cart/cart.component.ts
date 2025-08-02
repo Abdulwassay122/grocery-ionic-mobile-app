@@ -6,12 +6,15 @@ import { register } from 'swiper/element/bundle';
 import { ApiService } from '../api.service';
 import { Browser } from '@capacitor/browser';
 import { NavigationService } from '../navigation.service';
+import { FooterComponent } from '../footer/footer.component';
+import { ToastController } from '@ionic/angular';
 
 register();
 @Component({
   imports: [
     CommonModule,
     IonicModule,
+    FooterComponent
   ],
   standalone: true,
   selector: 'app-cart',
@@ -28,12 +31,20 @@ export class CartComponent implements OnInit {
   loading2 : boolean = false;
 
 
-  constructor(private navCtrl: NavController, private apiService: ApiService, private navigationService: NavigationService) { }
+  constructor(private toastController: ToastController, private navCtrl: NavController, private apiService: ApiService, private navigationService: NavigationService) { }
 
   ngOnInit() {
     this.loadCart()
   }
-
+  async presentToast(message: string, color: 'success' | 'danger' | 'warning' | 'primary') {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000, 
+      position: 'bottom',
+      color,
+    });
+    toast.present();
+  }
   async loadCart() {
     const cartId = localStorage.getItem("cart_id");
     console.log("Cart Id : ", cartId);
@@ -91,7 +102,8 @@ export class CartComponent implements OnInit {
         price: item.merchandise.price.amount,
         currency: item.merchandise.price.currencyCode,
         image: image || 'assets/images/Rectangle 319.png',
-        quality: item.merchandise.title
+        quality: item.merchandise.title,
+        quantityAvailable: item.merchandise.quantityAvailable
       };
     });
   }
@@ -117,21 +129,13 @@ export class CartComponent implements OnInit {
 
 
   // Add To Cart 
-  async initializeCart() {
-    let cartId = localStorage.getItem('cart_id');
-    if (!cartId) {
-      const res: any = await this.apiService.createCart().toPromise();
-      cartId = res.data.cartCreate.cart.id;
-      localStorage.setItem('cart_id', cartId || '');
-      this.loading2 = false;
-    }
-    return cartId as string;
-  }
   async addToCart(variantId: string, quantity: number) {
     this.loading2 = true;
     try {
-      const cartId: string = await this.initializeCart();
-
+      const cartId = localStorage.getItem('cart_id');
+      if (!cartId) {
+        throw new Error('Cart ID not found in localStorage.');
+      }
       // Convert observable to promise
       const res: any = await this.apiService.addToCart(cartId, variantId, quantity).toPromise();
       console.log('Cart updated', res);
@@ -142,8 +146,14 @@ export class CartComponent implements OnInit {
       this.loading2 = false;
     }
   }
-  AddToCart(id: string) {
-    this.addToCart(id, 1)
+  AddToCart(item: any) {
+    // console.log(item.quantityAvailable)
+    // console.log(item.quality)
+    if(item.quantityAvailable !== item.quantity){
+      this.addToCart(item.id, 1)
+    }else{
+      this.presentToast("No More tock available.", "danger")
+    }
   }
   
 
@@ -157,6 +167,7 @@ export class CartComponent implements OnInit {
       next: (res: any) => {
         this.cartItems = this.cartItems.filter(i => i.Lineid !== item.Lineid);
         this.loadCart();
+        this.loading2 = false;
       },
       error: (err) => {
         console.error('Failed to remove item:', err);

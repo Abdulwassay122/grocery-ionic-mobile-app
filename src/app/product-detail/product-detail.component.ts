@@ -67,7 +67,8 @@ export class ProductDetailComponent implements OnInit {
             price: edge.node.price.amount,
             currency: edge.node.price.currencyCode,
             imageUrl: edge.node.image?.url,
-            available: edge.node.availableForSale
+            available: edge.node.availableForSale,
+            quantityAvailable:edge.node.quantityAvailable
           }));
 
           this.product = {
@@ -107,9 +108,14 @@ export class ProductDetailComponent implements OnInit {
     }
   }
 
+  
+
   increaseQuantity() {
-    if (this.selectedVariant && this.selectedVariant.available) {
+    console.log(this.selectedVariant)
+    if (this.selectedVariant && this.selectedVariant.quantityAvailable !== this.quantity) {
       this.quantity++;
+    }else{
+      this.presentToast("No More tock available.", "danger")
     }
   }
 
@@ -122,19 +128,13 @@ export class ProductDetailComponent implements OnInit {
   }
 
   // Add To Cart 
-  async initializeCart() {
-    let cartId = localStorage.getItem('cart_id');
-    if (!cartId) {
-      const res: any = await this.apiService.createCart().toPromise();
-      cartId = res.data.cartCreate.cart.id;
-      localStorage.setItem('cart_id', cartId || '');
-    }
-    return cartId as string;
-  }
   async addToCart(variantId: string, quantity: number) {
     this.loading2 = true;
     try {
-      const cartId: string = await this.initializeCart();
+      const cartId = localStorage.getItem('cart_id');
+      if (!cartId) {
+        throw new Error('Cart ID not found in localStorage.');
+      }
 
       const res: any = await this.apiService.addToCart(cartId, variantId, quantity).toPromise();
       console.log('Cart updated', res);

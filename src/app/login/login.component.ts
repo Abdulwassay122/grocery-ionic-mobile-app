@@ -44,9 +44,9 @@ export class LoginComponent implements OnInit {
     private navCtrl: NavController,
     private toastController: ToastController,
     private apiService: ApiService
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
   goToFirst() {
     this.navCtrl.navigateBack(['/first']);
   }
@@ -62,6 +62,16 @@ export class LoginComponent implements OnInit {
       color,
     });
     toast.present();
+  }
+
+  async initializeCart() {
+    let cartId = localStorage.getItem('cart_id');
+    if (!cartId) {
+      const res: any = await this.apiService.createCart().toPromise();
+      cartId = res.data.cartCreate.cart.id;
+      localStorage.setItem('cart_id', cartId || '');
+    }
+    return cartId as string;
   }
 
   onLogin() {
@@ -115,12 +125,22 @@ export class LoginComponent implements OnInit {
           const tokenData = result.customerAccessToken;
           if (tokenData?.accessToken) {
             console.log('Login Success:', tokenData);
-            localStorage.setItem('customerAccessToken', tokenData.accessToken);
+            localStorage.setItem('customerAccessToken', JSON.stringify(tokenData.accessToken));
             this.email = '';
             this.password = '';
+            this.presentToast('Login Successfull', 'primary');
+            localStorage.setItem("shopify_customer_type", "registered")
             // optionally redirect or call another method
+            this.initializeCart().then(cartId => {
+              this.apiService.connectCartToCustomer(cartId, tokenData.accessToken).subscribe(cart => {
+                console.log('Cart connected to customer:', cart);
+              });
+            });
+            this.navCtrl.navigateForward(['/home']);
+
           } else {
             this.Error = 'Login failed. No token received.';
+            this.presentToast(this.Error, 'danger');
           }
         },
 

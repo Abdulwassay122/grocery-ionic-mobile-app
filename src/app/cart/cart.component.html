@@ -38,7 +38,7 @@
                   <button class="g-2" fill="clear">
                     <p>{{ item.quantity }}</p>
                   </button>
-                  <button class="g-1" fill="clear" (click)="AddToCart(item.id)">
+                  <button class="g-1" fill="clear" (click)="AddToCart(item)">
                     <ion-icon name="add-outline"></ion-icon>
                   </button>
                 </div>
@@ -79,6 +79,7 @@
   </div>
 </ion-content>
 
+<app-footer></app-footer>
 
 <ng-template #emptyTemp>
   <p class="empty">Cart is Empty</p>

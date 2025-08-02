@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, finalize, Observable, of } from 'rxjs';
 import { environment } from '../environments/environment';
 
 @Injectable({
@@ -77,7 +77,7 @@ export class ApiService {
               id
               title
               availableForSale
-              
+              quantityAvailable
               price {
                 amount
                 currencyCode
@@ -153,10 +153,11 @@ export class ApiService {
           lines(first: 10) {
             edges {
               node {
-                id
+                id  
                 quantity
                 merchandise {
                   ... on ProductVariant {
+                    quantityAvailable
                     id
                     title
                     price {
@@ -331,4 +332,105 @@ export class ApiService {
 
     return this.http.post(this.apiUrl, { query, variables }, { headers: this.getHeaders() });
   }
+
+  connectCartToCustomer(cartId: string, accessToken: string) {
+    const query = `
+    mutation cartBuyerIdentityUpdate($cartId: ID!, $buyerIdentity: CartBuyerIdentityInput!) {
+      cartBuyerIdentityUpdate(cartId: $cartId, buyerIdentity: $buyerIdentity) {
+        cart {
+          id
+          buyerIdentity {
+            customer {
+              id
+              email
+            }
+          }
+        }
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+  `;
+
+    const variables = {
+      cartId,
+      buyerIdentity: { customerAccessToken: accessToken }
+    };
+
+    return this.http.post(this.apiUrl, { query, variables }, {
+      headers: this.getHeaders()
+    });
+  }
+
+  logout() {
+    const accessToken = localStorage.getItem('customerAccessToken');
+
+    const query = `
+    mutation customerAccessTokenDelete($accessToken: String!) {
+      customerAccessTokenDelete(customerAccessToken: $accessToken) {
+        deletedAccessToken
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+  `;
+
+    const variables = { accessToken };
+
+    return this.http.post<any>(this.apiUrl, { query, variables }, {
+      headers: this.getHeaders()
+    }).pipe(
+      finalize(() => {
+        localStorage.removeItem('customerAccessToken');
+        localStorage.removeItem('cart_id');
+        localStorage.removeItem('customer');
+        localStorage.removeItem('shopify_customer_type');
+      }),
+      catchError(err => {
+        console.error('Logout API failed:', err);
+        // Still clear local data
+        return of(null);
+      })
+    );
+  }
+
+  resetCartBuyerIdentity(cartId: string) {
+  const query = `
+    mutation cartBuyerIdentityUpdate($cartId: ID!, $buyerIdentity: CartBuyerIdentityInput!) {
+      cartBuyerIdentityUpdate(cartId: $cartId, buyerIdentity: $buyerIdentity) {
+        cart {
+          id
+          buyerIdentity {
+            email
+            customer {
+              id
+              email
+            }
+          }
+        }
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+  `;
+
+  const variables = {
+    cartId,
+    buyerIdentity: {
+      customerAccessToken: null,
+      email: null
+    }
+  };
+
+  return this.http.post<any>(this.apiUrl, { query, variables }, {
+    headers: this.getHeaders()
+  });
+}
+
 }

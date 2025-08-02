@@ -5,13 +5,14 @@ import { register } from 'swiper/element/bundle';
 import { ApiService } from '../api.service';
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FooterComponent } from '../footer/footer.component';
 
 register();
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  imports: [CommonModule, IonHeader, IonToolbar, IonTitle, IonContent, IonInput, IonItem, IonIcon, IonFooter],
+  imports: [ FooterComponent, CommonModule, IonHeader, IonToolbar, IonTitle, IonContent, IonInput, IonItem, IonIcon, IonFooter],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
 })
@@ -49,6 +50,9 @@ export class HomePage {
   }
   goToCart() {
     this.navCtrl.navigateForward(['/cart']);
+  }
+  goToProfile() {
+    this.navCtrl.navigateForward(['/profile']);
   }
   goToProductdetail(productId: string) {
     const activeElement = document.activeElement as HTMLElement;
