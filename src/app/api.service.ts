@@ -11,8 +11,6 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-
-
   getHeaders() {
     return new HttpHeaders({
       'Content-Type': 'application/json',
@@ -143,6 +141,24 @@ export class ApiService {
   }
 
   // To Get Products From Cart 
+  getCartQuantity() {
+    const cartId = localStorage.getItem('cart_id')
+    console.log(cartId)
+    if(!cartId){
+      throw new Error("Cart id not Found!")
+    }else{
+      const query = `
+        query GetCart($cartId: ID!) {
+          cart(id: $cartId) {
+            totalQuantity
+          }
+        }
+      `;
+      const variables = { cartId };
+      return this.http.post(this.apiUrl, { query, variables }, { headers: this.getHeaders() });
+    }
+  }
+  
   getCart(cartId: string) {
     const query = `
       query GetCart($cartId: ID!) {

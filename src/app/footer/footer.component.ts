@@ -18,7 +18,8 @@ export class FooterComponent  implements OnInit {
     this.navCtrl.navigateForward(['/cart']);
   }
   goToProfile() {
-    this.navCtrl.navigateForward(['/profile']);
+    const isGuest = localStorage.getItem('shopify_customer_type') === 'guest'
+    isGuest ? this.navCtrl.navigateForward(['/login']) : this.navCtrl.navigateForward(['/profile'])
   }
   goToHome() {
     this.navCtrl.navigateBack(['/home']);

@@ -12,9 +12,15 @@ import { Router } from '@angular/router';
 })
 export class ProfileComponent implements OnInit {
 
+
   constructor(private apiService: ApiService, private router: Router) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    const isGuest = localStorage.getItem('shopify_customer_type') === 'guest'
+    if(isGuest){
+      this.router.navigate(['/login']); 
+    }
+   }
 
   Logout() {
     this.apiService.logout().subscribe(() => {

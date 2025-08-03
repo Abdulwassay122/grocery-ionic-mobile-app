@@ -3,6 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
+import { Location } from '@angular/common';
 
 import {
   IonLabel,
@@ -43,12 +44,14 @@ export class LoginComponent implements OnInit {
   constructor(
     private navCtrl: NavController,
     private toastController: ToastController,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private location: Location
   ) { }
 
   ngOnInit() { }
-  goToFirst() {
-    this.navCtrl.navigateBack(['/first']);
+  
+  goToBack() {
+    this.location.back();
   }
 
   async presentToast(

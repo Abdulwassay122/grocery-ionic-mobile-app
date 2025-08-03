@@ -7,7 +7,10 @@
       <ion-icon name="search-outline"></ion-icon>
       <ion-input placeholder="Search for fruits, vegetables, groce..."></ion-input>
     </ion-item>
-    <ion-icon (click)="goToCart()" color="primary" name="cart-outline"></ion-icon>
+    <div class="cart">
+      <ion-icon (click)="goToCart()" color="primary" name="cart-outline"></ion-icon>
+      <p [hidden]="loading">{{quantity}}</p>
+    </div>
   </div>
 
 

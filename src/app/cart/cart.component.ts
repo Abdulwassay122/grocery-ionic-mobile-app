@@ -8,6 +8,7 @@ import { Browser } from '@capacitor/browser';
 import { NavigationService } from '../navigation.service';
 import { FooterComponent } from '../footer/footer.component';
 import { ToastController } from '@ionic/angular';
+import { Location } from '@angular/common';
 
 register();
 @Component({
@@ -31,7 +32,7 @@ export class CartComponent implements OnInit {
   loading2 : boolean = false;
 
 
-  constructor(private toastController: ToastController, private navCtrl: NavController, private apiService: ApiService, private navigationService: NavigationService) { }
+  constructor(private location: Location, private toastController: ToastController, private navCtrl: NavController, private apiService: ApiService, private navigationService: NavigationService) { }
 
   ngOnInit() {
     this.loadCart()
@@ -48,7 +49,6 @@ export class CartComponent implements OnInit {
   async loadCart() {
     const cartId = localStorage.getItem("cart_id");
     console.log("Cart Id : ", cartId);
-
 
     if (cartId) {
       this.apiService.getCart(cartId).subscribe({
@@ -109,15 +109,8 @@ export class CartComponent implements OnInit {
   }
 
 
-  goToHome() {
-    const previousRoute = this.navigationService.getPreviousUrl();
-
-    if (previousRoute) {
-      this.navCtrl.navigateBack([previousRoute]);
-    } else {
-      // Fallback if there's no previous route (e.g., first page load)
-      this.navCtrl.navigateBack(['/home']);
-    }
+  goToBack() {
+    this.location.back();
   }
 
   getQuantity() {

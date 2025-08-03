@@ -13,6 +13,7 @@ import {
   IonIcon,
 } from '@ionic/angular/standalone';
 import { ApiService } from '../api.service';
+import { Location } from '@angular/common';
 
 register();
 @Component({
@@ -45,9 +46,9 @@ export class SignupComponent implements OnInit {
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
-  constructor(private toastController: ToastController, private navCtrl: NavController, private apiService: ApiService) {}
-  goToFirst() {
-    this.navCtrl.navigateBack(['/first']);
+  constructor(private location: Location, private toastController: ToastController, private navCtrl: NavController, private apiService: ApiService) {}
+  goToBack() {
+    this.location.back();
   }
   ngOnInit() {}
 

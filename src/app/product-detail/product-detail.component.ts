@@ -9,7 +9,7 @@ import { NavigationService } from '../navigation.service';
 import { IonSpinner } from '@ionic/angular/standalone';
 import { ToastController } from '@ionic/angular';
 import { HeaderComponent } from '../header/header.component';
-
+import { Location } from '@angular/common';
 
 register();
 @Component({
@@ -25,7 +25,7 @@ export class ProductDetailComponent implements OnInit {
   product: any = null;
   quantity: number = 1;
   selectedVariant: any;
-  constructor(private toastController: ToastController, private navigationService: NavigationService, private navCtrl: NavController, private route: ActivatedRoute, private apiService: ApiService) { }
+  constructor(private location: Location, private toastController: ToastController, private navigationService: NavigationService, private navCtrl: NavController, private route: ActivatedRoute, private apiService: ApiService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params:any) => {
@@ -98,14 +98,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   goToBack() {
-    const previousRoute = this.navigationService.getPreviousUrl();
-
-    if (previousRoute) {
-      this.navCtrl.navigateBack([previousRoute]);
-    } else {
-      // Fallback if there's no previous route (e.g., first page load)
-      this.navCtrl.navigateBack(['/home']);
-    }
+    this.location.back();
   }
 
   

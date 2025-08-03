@@ -2,7 +2,7 @@
   <div class="section-container">
 
     <div class="head">
-      <ion-icon (click)="goToHome()" name="chevron-back-outline"></ion-icon>
+      <ion-icon (click)="goToBack()" name="chevron-back-outline"></ion-icon>
       <h1>Cart</h1>
     </div>
 
@@ -32,13 +32,14 @@
                 </div>
 
                 <div class="button-group">
-                  <button class="g-1" fill="clear" (click)="decreaseQuantity(item)">
+                  <button [disabled]="loading2" class="g-1" fill="clear" (click)="decreaseQuantity(item)">
                     <ion-icon name="remove-outline"></ion-icon>
                   </button>
                   <button class="g-2" fill="clear">
-                    <p>{{ item.quantity }}</p>
+                    <p *ngIf="!loading2">{{ item.quantity }}</p>
+                    <ion-spinner *ngIf="loading2" name="lines-sharp-small" color=""></ion-spinner>
                   </button>
-                  <button class="g-1" fill="clear" (click)="AddToCart(item)">
+                  <button [disabled]="loading2" class="g-1" fill="clear" (click)="AddToCart(item)">
                     <ion-icon name="add-outline"></ion-icon>
                   </button>
                 </div>
@@ -72,7 +73,7 @@
       </div>
     </div>
 
-    <ion-button (click)="openCheckout()" *ngIf="cartItems.length > 0" class="end" fill="clear">
+    <ion-button [disabled]="loading2" (click)="openCheckout()" *ngIf="cartItems.length > 0" class="end" fill="clear">
       Checkout
     </ion-button>
 
@@ -110,13 +111,5 @@
         </ion-card>
       </ion-item>
     </ion-item-sliding>
-  </div>
-</ng-template>
-
-<div *ngIf="!loading2; else loadingTemp2"></div>
-<ng-template #loadingTemp2>
-  <div class="loading-wrapper">
-    <ion-spinner name="crescent" color="light"></ion-spinner>
-    <p></p>
   </div>
 </ng-template>

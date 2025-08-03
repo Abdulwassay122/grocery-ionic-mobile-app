@@ -5,7 +5,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { ApiService } from '../api.service';
 import { CommonModule } from '@angular/common'; 
-
+import { Location } from '@angular/common';
 
 register();
 @Component({
@@ -22,10 +22,10 @@ export class ProductsPageComponent implements OnInit {
 
   posts: any[] = [];
 
-  constructor(private navCtrl: NavController, private apiService: ApiService) { }
+  constructor(private location: Location, private navCtrl: NavController, private apiService: ApiService) { }
 
-  goToProducts() {
-    this.navCtrl.navigateBack(['/home']);
+  goToBack() {
+    this.location.back();
   }
   goToProductdetail(productId: string) {
     this.navCtrl.navigateForward(['/productdetail'], {

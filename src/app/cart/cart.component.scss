@@ -131,6 +131,9 @@ ion-content {
                             background: rgba(14, 177, 119, 0.15); // fixed syntax
                             border: 1px solid #0EB177;
                             color: #0EB177;
+                            p{
+                                margin: 0;
+                            }
                         }
                     }
                 }

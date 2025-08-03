@@ -6,6 +6,8 @@ import { FirstComponent } from './first/first.component';
 import { CartComponent } from './cart/cart.component';
 import { ProfileComponent } from './profile/profile.component';
 
+const isLogged = localStorage.getItem("shopify_customer_type")
+
 export const routes: Routes = [
   {
     path: 'home',
@@ -27,7 +29,7 @@ export const routes: Routes = [
   { path: 'profile', component: ProfileComponent },
   {
     path: '',
-    redirectTo: 'first',
+    redirectTo: isLogged?'home':'first',
     pathMatch: 'full',
   },
 ];
