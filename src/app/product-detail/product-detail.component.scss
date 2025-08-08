@@ -28,9 +28,8 @@ ion-content {
                     width: 18px;
                 }
                 
-                img.chevron {
-                    height: 12px;
-                    width: 6px;
+                .sharp{
+                  color: #4CAD73;
                 }
 
             }
@@ -61,12 +60,31 @@ ion-content {
             flex-direction: column;
             gap: 14px;
             .badge{
+              border-radius: 5px;
                 font-size: 10px;
                 width: fit-content;
-                background: rgb(76, 173, 115, 20%);
                 padding: 2px 6px;
+              }
+              .vegetables{
                 color: #4CAD73;
-            }
+                background: rgb(76, 173, 115, 20%);
+              }
+              .meat{
+                color: #f51a0b;
+                background: rgba(243, 97, 12, 0.2);
+              }
+              .seafood{
+                color: #0b78f5;
+                background: rgba(40, 134, 197, 0.2);
+              }
+              .Fruits{
+                color: #4CAD73;
+                background: rgba(40, 197, 124, 0.2);
+              }
+              .Dairy{
+                color: #7ba9e2;
+                background: rgba(141, 195, 245, 0.2);
+              }
             .product-name{
                 font-size: 24px;
                 font-weight: 600;

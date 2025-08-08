@@ -1,0 +1,95 @@
+<app-header></app-header>
+
+<ion-content *ngIf="!loading;else cartSkeleton">
+
+  <h1>Wishlist</h1>
+  
+  <div *ngIf="wishlistProducts.length > 0;else emptyTemp" class="cards-container">
+    <div *ngFor="let product of wishlistProducts">
+      <ion-card class="product-card">
+
+        <!-- Product Image -->
+        <img (click)="goToProdDetail(product.id)" [src]="product.images.edges[0]?.node?.url" alt="Product Image" />
+
+        <ion-card-content>
+          <div class="product-info">
+
+            <!-- Title -->
+            <h2 (click)="goToProdDetail(product.id)">{{ product.title }}</h2>
+
+            <!-- Price -->
+            <div (click)="goToProdDetail(product.id)" class="price-section">
+              <p class="price">
+                <span>
+                  {{ product.variants.edges[0]?.node?.price.amount }}
+                  {{ product.variants.edges[0]?.node?.price.currencyCode }}
+                </span>
+                <span class="weight">/ kg</span>
+              </p>
+            </div>
+
+          </div>
+          <div class="button-group">
+            <div class="add">
+              <button (click)="AddToCart(product.variants.edges[0]?.node?.id, product.id)" fill="clear" class="add-button">
+                <ion-icon name="add-outline"></ion-icon>
+              </button>
+            </div>
+            <ion-icon (click)="deleteFromWishlist(product.id)" name="trash-outline"></ion-icon>
+          </div>
+        </ion-card-content>
+
+      </ion-card>
+    </div>
+  </div>
+</ion-content>
+
+
+
+
+<app-footer></app-footer>
+
+
+<ng-template #emptyTemp>
+  <p class="empty">Wishlist is Empty</p>
+</ng-template>
+
+<ng-template #cartSkeleton>
+  <ion-content>
+    <h1>Wishlist</h1>
+
+    <div class="cards-container">
+      <ng-container *ngFor="let i of [1, 2, 3]">
+        <ion-card class="product-card">
+
+          <!-- Skeleton Image -->
+          <ion-skeleton-text animated style="width: 100%; height: 150px; border-radius: 8px;"></ion-skeleton-text>
+
+          <ion-card-content>
+            <div class="product-info">
+              <!-- Title skeleton -->
+              <ion-skeleton-text animated style="width: 60%; height: 20px; margin: 10px 0;"></ion-skeleton-text>
+
+              <!-- Price skeleton -->
+              <ion-skeleton-text animated style="width: 40%; height: 16px;"></ion-skeleton-text>
+            </div>
+
+            <div class="button-group" style="display: flex; align-items: center; justify-content: space-between; margin-top: 10px;">
+              <ion-skeleton-text animated style="width: 32px; height: 32px; border-radius: 50%;"></ion-skeleton-text>
+              <ion-skeleton-text animated style="width: 24px; height: 24px; border-radius: 50%;"></ion-skeleton-text>
+            </div>
+          </ion-card-content>
+
+        </ion-card>
+      </ng-container>
+    </div>
+  </ion-content>
+</ng-template>
+
+<div *ngIf="!loading2; else loadingTemp2"></div>
+<ng-template #loadingTemp2>
+  <div class="loading-wrapper">
+    <ion-spinner name="crescent" color="light"></ion-spinner>
+    <p>Adding to Cart ...</p>
+  </div>
+</ng-template>

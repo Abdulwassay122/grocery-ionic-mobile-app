@@ -5,6 +5,8 @@ import { SignupComponent } from './signup/signup.component';
 import { FirstComponent } from './first/first.component';
 import { CartComponent } from './cart/cart.component';
 import { ProfileComponent } from './profile/profile.component';
+import { WishlistComponent } from './wishlist/wishlist.component';
+import { OrdersComponent } from './orders/orders.component';
 
 const isLogged = localStorage.getItem("shopify_customer_type")
 
@@ -27,6 +29,8 @@ export const routes: Routes = [
   { path: 'first', component: FirstComponent },
   { path: 'cart', component: CartComponent },
   { path: 'profile', component: ProfileComponent },
+  { path: 'wishlist', component: WishlistComponent },
+  { path: 'orders', component: OrdersComponent },
   {
     path: '',
     redirectTo: isLogged?'home':'first',

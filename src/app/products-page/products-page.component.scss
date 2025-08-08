@@ -33,6 +33,11 @@
         height: 20px;
         width: 20px;
       }
+      .cross{
+        height: 20px;
+        width: 20px;
+        color: #7c7c7c;
+      }
     }
 
     .cart {
@@ -84,7 +89,6 @@
           width: fit-content;
 
           div.category-image {
-            border: 2px solid #4CAD73;
             height: 53px;
             width: 53px;
             display: flex;
@@ -99,6 +103,18 @@
             }
           }
 
+          p {
+            padding: 0;
+            margin: 0;
+            font-size: 12px;
+            font-weight: 500;
+            max-width: 66px;
+          }
+        }
+        .categoryActive {
+          div.category-image {
+            border: 2px solid #4CAD73;
+          }
           div.bar {
             width: 66px;
             height: 6px;
@@ -106,14 +122,6 @@
             border-top-left-radius: 5px;
             border-top-right-radius: 5px;
             margin-top: 26px;
-          }
-
-          p {
-            padding: 0;
-            margin: 0;
-            font-size: 12px;
-            font-weight: 500;
-            max-width: 66px;
           }
         }
       }
@@ -164,6 +172,9 @@
               height: 20px;
               width: 20px;
             }
+            .sharp{
+                  color: #4CAD73;
+                }
           }
         }
 
@@ -259,3 +270,26 @@
 }
 
   }
+
+  .loading-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4); // translucent black
+  z-index: 1000;
+  color: #fff;
+}
+.empty{
+  text-align: center;
+  color: #333333;
+  margin-top: 20px; 
+}
+
+
+::ng-deep .variant-modal .modal-wrapper {
+  border-radius: 16px;
+  overflow: hidden;
+}

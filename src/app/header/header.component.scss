@@ -10,7 +10,10 @@ ion-header {
         justify-content: space-between;
         margin: 0px 21px;
         gap: 15px;
-
+        ion-icon{
+            height: 25px;
+            width: 25px;
+        }
         .search-bar {
             ion-icon {
                 height: 17px;

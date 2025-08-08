@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Select Variant</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- <div class="products-section" >
+    <ion-card class="product-card" *ngFor="let product of variants">
+      <div class="image-container">
+        <img  [src]="product.image.url || 'assets/placeholder.jpg'"  />
+      </div>
+
+      <ion-card-content>
+        <h2>{{product.title}}</h2>
+        <div class="price-section">
+          <p class="price">
+            <span>{{product.price.currency}} {{product.price.amount}}</span>
+            <span class="weight">/ kg</span>
+          </p>
+          <p class="cut-price">PKR 21,000</p>
+        </div>
+        <div class="add">
+          <button (click)="selectVariant(product)" fill="clear" class="add-button">
+            <ion-icon name="add-outline"></ion-icon>
+          </button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div> -->
+
+  <div class="cards-container">
+      <ion-item lines="none" *ngFor="let variant of variants">
+        <ion-card class="product-card">
+          <img [src]="variant.image.url" alt="Product Image" />
+
+          <ion-card-content>
+            <div class="product-info">
+              <h2>{{ variant.name }}</h2>
+              <div class="price-section">
+                <p class="price">
+                  <span
+                    >{{ variant.price.currency }}
+                    {{ variant.price.amount }}</span
+                  >
+                  <span class="weight">/ kg</span>
+                </p>
+                <p>Quality : {{ variant.title }}</p>
+              </div>
+            </div>
+
+            <div class="button-group">
+              <div class="add">
+                <button
+                  (click)="selectVariant(variant)"
+                  fill="clear"
+                  class="add-button"
+                >
+                  <ion-icon name="add-outline"></ion-icon>
+                </button>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-item>
+  </div>
+</ion-content>

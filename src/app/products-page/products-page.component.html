@@ -4,8 +4,9 @@
   </button>
   <div class="search-bar">
     <ion-icon class="search" name="search-outline"></ion-icon>
-    <ion-input placeholder="Search for fruits, vegetables, groce..."></ion-input>
-    <img src="../../assets/images/Group3.png" alt="" />
+    <ion-input #searchInput (ionInput)="onInput($event)" [(ngModel)]="searchTerm" placeholder="Search..."
+      showCancelButton="focus"></ion-input>
+    <ion-icon (click)="clearSearch()" class="cross" name="close-outline"></ion-icon>
   </div>
   <div class="cart">
     <ion-icon (click)="goToCart()" class="logo" name="cart-outline"></ion-icon>
@@ -16,85 +17,12 @@
   <!-- categories -->
   <div class="categories-section">
     <swiper-container class="categories" slides-per-view="auto" space-between="20">
-      <swiper-slide class="category">
+      <swiper-slide (click)="goToCollection(collection.title)" *ngFor="let collection of collections" class="category"
+        [ngClass]="isActive(collection.title)">
         <div class="category-image">
-          <img
-            src="../../assets/images/kisspng-spinach-salad-vegetarian-cuisine-vegetable-clip-ar-spinach-5a753501c985f2 1.png"
-            alt="">
+          <img [src]="collection.imageUrl" alt="">
         </div>
-        <p>Vegetables</p>
-        <div class="bar"></div>
-      </swiper-slide>
-      <swiper-slide class="category">
-        <div class="category-image">
-          <img
-            src="../../assets/images/kisspng-spinach-salad-vegetarian-cuisine-vegetable-clip-ar-spinach-5a753501c985f2 1.png"
-            alt="">
-        </div>
-        <p>Vegetables</p>
-        <div class="bar"></div>
-      </swiper-slide>
-      <swiper-slide class="category">
-        <div class="category-image">
-          <img
-            src="../../assets/images/kisspng-spinach-salad-vegetarian-cuisine-vegetable-clip-ar-spinach-5a753501c985f2 1.png"
-            alt="">
-        </div>
-        <p>Vegetables</p>
-        <div class="bar"></div>
-      </swiper-slide>
-      <swiper-slide class="category">
-        <div class="category-image">
-          <img
-            src="../../assets/images/kisspng-spinach-salad-vegetarian-cuisine-vegetable-clip-ar-spinach-5a753501c985f2 1.png"
-            alt="">
-        </div>
-        <p>Vegetables</p>
-        <div class="bar"></div>
-      </swiper-slide>
-      <swiper-slide class="category">
-        <div class="category-image">
-          <img
-            src="../../assets/images/kisspng-spinach-salad-vegetarian-cuisine-vegetable-clip-ar-spinach-5a753501c985f2 1.png"
-            alt="">
-        </div>
-        <p>Vegetables</p>
-        <div class="bar"></div>
-      </swiper-slide>
-      <swiper-slide class="category">
-        <div class="category-image">
-          <img
-            src="../../assets/images/kisspng-spinach-salad-vegetarian-cuisine-vegetable-clip-ar-spinach-5a753501c985f2 1.png"
-            alt="">
-        </div>
-        <p>Vegetables</p>
-        <div class="bar"></div>
-      </swiper-slide>
-      <swiper-slide class="category">
-        <div class="category-image">
-          <img
-            src="../../assets/images/kisspng-spinach-salad-vegetarian-cuisine-vegetable-clip-ar-spinach-5a753501c985f2 1.png"
-            alt="">
-        </div>
-        <p>Vegetables</p>
-        <div class="bar"></div>
-      </swiper-slide>
-      <swiper-slide class="category">
-        <div class="category-image">
-          <img
-            src="../../assets/images/kisspng-spinach-salad-vegetarian-cuisine-vegetable-clip-ar-spinach-5a753501c985f2 1.png"
-            alt="">
-        </div>
-        <p>Vegetables</p>
-        <div class="bar"></div>
-      </swiper-slide>
-      <swiper-slide class="category">
-        <div class="category-image">
-          <img
-            src="../../assets/images/kisspng-spinach-salad-vegetarian-cuisine-vegetable-clip-ar-spinach-5a753501c985f2 1.png"
-            alt="">
-        </div>
-        <p>Vegetables</p>
+        <p>{{collection.title}}</p>
         <div class="bar"></div>
       </swiper-slide>
     </swiper-container>
@@ -102,10 +30,13 @@
 
   <!-- Products  -->
   <div class="products-section" *ngIf="!loading && posts; else skeletonLoader">
-    <ion-card class="product-card" *ngFor="let product of posts" (click)="goToProductdetail(product.id)">
+    <ion-card class="product-card" *ngFor="let product of filteredPosts" (click)="goToProductdetail(product.id)">
       <div class="image-container">
         <img *ngIf="product.imageUrl" [src]="product.imageUrl" [alt]="product.altText" />
-        <div class="fav"><ion-icon name="heart-outline"></ion-icon></div>
+        <div (click)="addToWishList(product.id); $event.stopPropagation()" class="fav">
+          <ion-icon *ngIf="!isWished(product.id)" name="heart-outline"></ion-icon>
+          <ion-icon class="sharp" *ngIf="isWished(product.id)" name="heart-sharp"></ion-icon>
+        </div>
       </div>
 
       <ion-card-content>
@@ -119,21 +50,31 @@
         </div>
         <div class="add">
           <button fill="clear" class="add-button">
-            <ion-icon name="add-outline"></ion-icon>
+            <ion-icon (click)="openVariantModal(product.varient); $event.stopPropagation()" name="add-outline"></ion-icon>
           </button>
         </div>
       </ion-card-content>
     </ion-card>
   </div>
 
-  <ng-template #skeletonLoader>
+  <div *ngIf="!loading2 && posts; else skeletonLoader"></div>
+  <div *ngIf="!Error; else Empty"></div>
+  <ion-infinite-scroll (ionInfinite)="loadMore($event)" threshold="100px">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>
+
+<app-footer></app-footer>
+
+<ng-template #skeletonLoader>
   <div class="products-section">
     <ion-card class="product-card" *ngFor="let i of [1,2,3,4]">
       <div class="image-container">
         <ion-skeleton-text animated style="width: 157px; height: 131px;"></ion-skeleton-text>
-        <div class="fav">
+        <!-- <div class="fav">
           <ion-icon name="heart-outline"></ion-icon>
-        </div>
+        </div> -->
       </div>
 
       <ion-card-content>
@@ -143,7 +84,7 @@
         <div class="price-section">
           <p class="price">
             <ion-skeleton-text animated style="width: 60px; height: 16px;"></ion-skeleton-text>
-            <span class="weight">/ kg</span>
+            <span class="weight"></span>
           </p>
           <p class="cut-price">
             <ion-skeleton-text animated style="width: 50px; height: 12px;"></ion-skeleton-text>
@@ -156,4 +97,14 @@
     </ion-card>
   </div>
 </ng-template>
-</ion-content>
+
+<div *ngIf="!loading3; else loadingTemp2"></div>
+<ng-template #loadingTemp2>
+  <div class="loading-wrapper">
+    <ion-spinner name="crescent" color="light"></ion-spinner>
+    <p>Adding to Cart ...</p>
+  </div>
+</ng-template>
+<ng-template #Empty>
+    <p class="empty">No Products Found!</p>
+</ng-template>

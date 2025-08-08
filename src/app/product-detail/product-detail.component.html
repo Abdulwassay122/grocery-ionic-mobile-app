@@ -4,10 +4,13 @@
   <!-- Product Images -->
   <div class="carousel">
     <div class="back-n-fav">
-      <div (click)="goToBack()">
+      <!-- <div (click)="goToBack()">
         <ion-icon name="chevron-back-outline"></ion-icon>
+      </div> -->
+      <div (click)="addToWishList(product.id)">
+        <ion-icon *ngIf="!isWished" name="heart-outline"></ion-icon>
+        <ion-icon class="sharp" *ngIf="isWished" name="heart-sharp"></ion-icon>
       </div>
-      <div><ion-icon name="heart-outline"></ion-icon></div>
     </div>
 
     <swiper-container *ngIf="selectedVariant?.imageUrl" slides-per-view="1" pagination="true">
@@ -20,7 +23,7 @@
   <!-- Product Details -->
   <div class="product-details">
     <div class="product-name-container">
-      <div class="badge">vegetables</div>
+      <div class="badge" [ngClass]="product.collection">{{product.collection}}</div>
       <h1 class="product-name">{{ product.title }}</h1>
 
       <!-- Variant-Specific Price -->

@@ -54,6 +54,27 @@ ion-header {
       }
     }
 
+    .cart {
+      position: relative;
+
+      ion-icon {
+        height: 26px;
+        width: 26px;
+        color: #fff;
+      }
+
+      p {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background: #ff6600;
+        margin: 0;
+        font-size: 10px;
+        border-radius: 100%;
+        padding: 2px 4px;
+      }
+    }
+
     ion-icon {
       height: 26px;
       width: 26px;
@@ -79,7 +100,6 @@ ion-header {
       align-items: center;
       justify-content: center;
       width: 100%;
-      font-family: "Montserrat Alternates", sans-serif;
     }
 
     width: 100%;
@@ -95,7 +115,6 @@ ion-header {
 // end of ionic header
 
 ion-content {
-  font-family: "Inter", sans-serif;
 
   // 01 location section
   .location {
@@ -169,12 +188,12 @@ ion-content {
         width: 100%;
         display: flex;
 
-        swiper-slide:first-child {
-          padding-left: 1rem;
+        swiper-slide:last-child {
+          padding-right: 1rem;
         }
 
         swiper-slide {
-          padding-right: 18px;
+          padding-left: 18px;
           width: fit-content;
           margin: 0;
           display: flex;
@@ -311,9 +330,10 @@ ion-content {
       margin: 0;
       padding: 0;
 
-      swiper-slide:last-child{
+      swiper-slide:last-child {
         padding-right: 1rem;
       }
+
       swiper-slide {
         padding-left: 1rem;
         margin: 0;
@@ -323,7 +343,7 @@ ion-content {
           padding: 0;
           height: 251px;
           width: fit-content;
-          box-shadow: 0 2px 8px rgba(128, 128, 128, 0.2);
+          box-shadow: 1px 2px 8px rgba(128, 128, 128, 0.5);
           border-radius: 10px;
 
           .image-container {
@@ -356,6 +376,9 @@ ion-content {
                 height: 20px;
                 width: 20px;
               }
+              .sharp{
+                  color: #4CAD73;
+                }
             }
           }
 
@@ -448,9 +471,9 @@ ion-content {
 // Foooter
 
 ion-footer {
-  height: 86px;
+  height: 70px;
   width: 100vw;
-  padding: 29px 37px;
+  // padding: 29px 37px;
   z-index: 20;
 
   // Rounded top corners
@@ -489,4 +512,17 @@ ion-footer {
       }
     }
   }
+}
+
+
+.loading-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4); // translucent black
+  z-index: 30;
+  color: #fff;
 }

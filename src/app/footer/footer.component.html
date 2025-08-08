@@ -2,10 +2,10 @@
 
   <ion-footer>
     <div class="footer-main">
-      <div (click)="goToHome()"><ion-icon name="home-outline"></ion-icon></div>
-      <div><ion-icon name="heart-outline"></ion-icon></div>
-      <div (click)="goToCart()"><ion-icon name="cart-outline"></ion-icon></div>
-      <div><ion-icon (click)="goToProfile()" name="person-outline"></ion-icon></div>
+      <div  (touchstart)="goToHome()"><ion-icon name="home-outline" [ngClass]="{ 'active-icon': isActive('/home') }"></ion-icon></div>
+      <div><ion-icon (touchstart)="goToWish()" name="heart-outline" [ngClass]="{ 'active-icon': isActive('/wishlist') }"></ion-icon></div>
+      <div (touchstart)="goToCart()"><ion-icon name="cart-outline" [ngClass]="{ 'active-icon': isActive('/cart') }"></ion-icon></div>
+      <div><ion-icon (touchstart)="goToProfile()" name="person-outline" [ngClass]="{ 'active-icon': isActive('/profile') }"></ion-icon></div>
     </div>
   </ion-footer>
 

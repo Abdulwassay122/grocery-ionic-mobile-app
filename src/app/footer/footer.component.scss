@@ -1,7 +1,7 @@
  ion-footer {
-  height: 86px;
+  height: 70px;
   width: 100vw;
-  padding: 29px 37px;
+  // padding: 29px 37px;
   z-index: 20;
 
   // Rounded top corners
@@ -11,22 +11,28 @@
   // Transparent background to reveal underlying content
 
   // Optional shadow
-  box-shadow: -1px -7px 30px -4px rgba(99, 94, 94, 0.71);
-  -webkit-box-shadow: -1px -7px 30px -4px rgba(99, 94, 94, 0.71);
-  -moz-box-shadow: -1px -7px 30px -4px rgba(99, 94, 94, 0.71);
+  box-shadow: -1px -7px 30px -4px rgba(99, 94, 94, 0.51);
+  -webkit-box-shadow: -1px -7px 30px -4px rgba(99, 94, 94, 0.51);
+  -moz-box-shadow: -1px -7px 30px -4px rgba(99, 94, 94, 0.51);
 
   overflow: hidden; // Ensures rounded corners clip internal content
   background: #FFFFFF;
 
   .footer-main {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
 
     // Optional: match rounded corners if needed
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
 
+    
     div {
+      .active-icon{
+        color: #4CAD73;
+      }
       width: 29px;
       height: 29px;
       display: flex;

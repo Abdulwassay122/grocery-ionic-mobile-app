@@ -62,6 +62,10 @@ export class SignupComponent implements OnInit {
     toast.present();
   }
 
+  gotoLogin(){
+    this.navCtrl.navigateRoot(['/login'])
+  }
+
   onSignUp() {
     const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
     this.errorEmail = '';

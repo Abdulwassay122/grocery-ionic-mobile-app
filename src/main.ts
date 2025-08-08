@@ -4,10 +4,11 @@ import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalo
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 import { addIcons } from 'ionicons';
-import { trashOutline, chevronBackOutline, searchOutline, mailOutline, notificationsOutline, locationOutline, chevronDownOutline, chevronForwardOutline, homeOutline, heartOutline, cartOutline, personOutline, addOutline, removeOutline, eyeOutline, eyeOffOutline, personCircleOutline } from 'ionicons/icons';
+import { trashOutline, chevronBackOutline, searchOutline, mailOutline, notificationsOutline, locationOutline, chevronDownOutline, chevronForwardOutline, homeOutline, heartOutline, cartOutline, personOutline, addOutline, removeOutline, eyeOutline, eyeOffOutline, personCircleOutline, heartSharp, closeOutline, calendarNumberOutline, calendarClearSharp, cardOutline, cubeOutline, basketOutline, locateOutline, bagOutline, arrowForwardOutline } from 'ionicons/icons';
 import { provideHttpClient } from '@angular/common/http';
-import { PLATFORM_ID } from '@angular/core';
+import { importProvidersFrom, PLATFORM_ID } from '@angular/core';
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
+import { IonicModule } from '@ionic/angular';
 
 addIcons({
   'chevron-back-outline': chevronBackOutline,
@@ -27,6 +28,15 @@ addIcons({
   'eye-outline': eyeOutline,
   'eye-off-outline': eyeOffOutline,
   'person-circle-outline': personCircleOutline,
+  'heart-sharp': heartSharp,
+  'close-outline': closeOutline,
+  'calendar-outline': calendarClearSharp,
+  'card-outline': cardOutline,
+  'cube-outline': cubeOutline,
+  'basket-outline': basketOutline,
+  'locate-outline': locateOutline,
+  'bag-outline': bagOutline,
+  'arrow-forward-outline': arrowForwardOutline,
 });
 bootstrapApplication(AppComponent, {
   providers: [
@@ -39,5 +49,11 @@ bootstrapApplication(AppComponent, {
       useValue: 'browser' // still valid for Capacitor runtime in browser
     },
     InAppBrowser,
+    importProvidersFrom(
+      IonicModule.forRoot({
+        animated: false  // ✅ Disable Ionic animations here
+      })
+    ),
+    provideRouter(routes)
   ],
 });

@@ -25,17 +25,33 @@ export class ProductDetailComponent implements OnInit {
   product: any = null;
   quantity: number = 1;
   selectedVariant: any;
+  isWished = false;
   constructor(private location: Location, private toastController: ToastController, private navigationService: NavigationService, private navCtrl: NavController, private route: ActivatedRoute, private apiService: ApiService) { }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params:any) => {
+
+    this.route.queryParams.subscribe((params: any) => {
       console.log('Query Params:', params);
 
       const productId = params['id'];
+      // initializing the wishlist
+      const existing = JSON.parse(localStorage.getItem('wishlist') || '[]');
+      console.log("Wishlist:", existing, "product id ", productId);
+
+      // Make sure product is defined
+      if (productId && existing.includes(productId)) {
+        this.isWished = true;
+        console.log('true')
+      } else {
+        this.isWished = false;
+        console.log('false')
+      }
 
       if (!productId) {
         console.warn(' No ID found. Using fallback.');
         this.fetchProduct('gid://shopify/Product/7256223219783'); // Fallback test ID
+        console.log(localStorage.getItem('wishlist')?.includes(this.product.id))
+
       } else {
         console.log(' Found product ID:', productId);
         this.fetchProduct(productId);
@@ -46,7 +62,7 @@ export class ProductDetailComponent implements OnInit {
   async presentToast(message: string, color: 'success' | 'danger' | 'warning' | 'primary') {
     const toast = await this.toastController.create({
       message,
-      duration: 2000, 
+      duration: 2000,
       position: 'bottom',
       color,
     });
@@ -68,11 +84,12 @@ export class ProductDetailComponent implements OnInit {
             currency: edge.node.price.currencyCode,
             imageUrl: edge.node.image?.url,
             available: edge.node.availableForSale,
-            quantityAvailable:edge.node.quantityAvailable
+            quantityAvailable: edge.node.quantityAvailable
           }));
 
           this.product = {
             id: data.id,
+            collection: data.collections.edges[0].node.title,
             title: data.title,
             description: data.description,
             imageUrl: data.images.edges[0]?.node.url,
@@ -80,15 +97,17 @@ export class ProductDetailComponent implements OnInit {
           };
 
           this.selectedVariant = variants[0];
+          this.loading = false
         } else {
           console.warn(' Product not found in response');
+          this.loading = false
         }
       },
       error: (err) => {
         console.error(' API Error:', err);
+        this.loading = false
       }
     });
-    this.loading = false
     console.log(this.loading)
   }
 
@@ -101,13 +120,13 @@ export class ProductDetailComponent implements OnInit {
     this.location.back();
   }
 
-  
+
 
   increaseQuantity() {
     console.log(this.selectedVariant)
     if (this.selectedVariant && this.selectedVariant.quantityAvailable !== this.quantity) {
       this.quantity++;
-    }else{
+    } else {
       this.presentToast("No More tock available.", "danger")
     }
   }
@@ -121,25 +140,47 @@ export class ProductDetailComponent implements OnInit {
   }
 
   // Add To Cart 
-  async addToCart(variantId: string, quantity: number) {
+  addToCart(variantId: string, quantity: number) {
     this.loading2 = true;
-    try {
-      const cartId = localStorage.getItem('cart_id');
-      if (!cartId) {
-        throw new Error('Cart ID not found in localStorage.');
-      }
 
-      const res: any = await this.apiService.addToCart(cartId, variantId, quantity).toPromise();
-      console.log('Cart updated', res);
-      this.presentToast('Item added to cart', 'primary')
-    } catch (error) {
-      console.error('Add to cart error:', error);
-    } finally {
-      this.loading2 = false
+    const cartId = localStorage.getItem('cart_id');
+    if (!cartId) {
+      this.presentToast('Cart ID not found', 'danger');
+      this.loading2 = false;
+      return;
     }
+
+    this.apiService.addToCart(cartId, variantId, quantity).subscribe({
+      next: () => {
+        this.apiService.getCartQuantity().subscribe();
+        this.presentToast('Item added to cart', 'primary');
+      },
+      error: (err) => {
+        console.error('Add to cart error:', err);
+        this.presentToast('Failed to add to cart', 'danger');
+      },
+      complete: () => {
+        this.loading2 = false; // ✅ now it stops at the correct time
+      }
+    });
   }
   AddToCart() {
     this.addToCart(this.selectedVariant.id, this.quantity)
   }
 
+
+
+  //  add to wishlist 
+  addToWishList(id: string) {
+    const existing = JSON.parse(localStorage.getItem('wishlist') || '[]');
+    if (existing.includes(id)) {
+      existing.splice(existing.indexOf(id), 1);
+      localStorage.setItem('wishlist', JSON.stringify(existing));
+      this.isWished = false
+    } else {
+      existing.push(id);
+      localStorage.setItem('wishlist', JSON.stringify(existing));
+      this.isWished = true
+    }
+  }
 }

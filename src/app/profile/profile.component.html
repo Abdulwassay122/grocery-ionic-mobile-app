@@ -1,9 +1,42 @@
-<ion-content>
+<ion-header>
 
-  <ion-button (click)="Logout()" color="primary"> 
-    Logout
-  </ion-button>
-  
+
+<div class="search">
+  <!-- <ion-icon (clilk)="goToBack()" color="primary" name="chevron-back-outline"></ion-icon> -->
+  <div class="cart">
+    <ion-icon (click)="goBack()"  color="primary" name="chevron-back-outline"></ion-icon>
+  </div>
+  <h1>Profile</h1>
+</div>
+
+</ion-header>
+
+<ion-content *ngIf="!loading" class="ion-padding">
+  <ion-list lines="full">
+    
+    <ion-item >
+      <ion-label>Full Name</ion-label>
+      <ion-note slot="end">{{ customer.firstName }} {{ customer.lastName }}</ion-note>
+    </ion-item>
+
+
+    <ion-item >
+      <ion-label>Email</ion-label>
+      <ion-note slot="end">{{ customer.email }}</ion-note>
+    </ion-item>
+
+    <ion-item >
+      <ion-label>Phone</ion-label>
+      <ion-note slot="end" color="medium">{{ customer.phone || "N/A" }}</ion-note>
+    </ion-item>
+
+    <ion-item (click)="goToOrders()">
+      <ion-label>Orders</ion-label>
+    </ion-item>
+
+  </ion-list>
+  <ion-button (click)="Logout()">Logout</ion-button>
 </ion-content>
+
 
 <app-footer></app-footer>

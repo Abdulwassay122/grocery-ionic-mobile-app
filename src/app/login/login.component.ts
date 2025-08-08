@@ -14,6 +14,7 @@ import {
 } from '@ionic/angular/standalone';
 import { ApiService } from '../api.service';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -77,6 +78,10 @@ export class LoginComponent implements OnInit {
     return cartId as string;
   }
 
+  gotoSignip(){
+    this.navCtrl.navigateRoot(['/signup'])
+  }
+
   onLogin() {
     console.log('object');
     const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -128,7 +133,7 @@ export class LoginComponent implements OnInit {
           const tokenData = result.customerAccessToken;
           if (tokenData?.accessToken) {
             console.log('Login Success:', tokenData);
-            localStorage.setItem('customerAccessToken', JSON.stringify(tokenData.accessToken));
+            localStorage.setItem('customerAccessToken', tokenData.accessToken);
             this.email = '';
             this.password = '';
             this.presentToast('Login Successfull', 'primary');
@@ -139,7 +144,7 @@ export class LoginComponent implements OnInit {
                 console.log('Cart connected to customer:', cart);
               });
             });
-            this.navCtrl.navigateForward(['/home']);
+             this.navCtrl.navigateForward(['/home']);
 
           } else {
             this.Error = 'Login failed. No token received.';

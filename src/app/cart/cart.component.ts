@@ -9,6 +9,7 @@ import { NavigationService } from '../navigation.service';
 import { FooterComponent } from '../footer/footer.component';
 import { ToastController } from '@ionic/angular';
 import { Location } from '@angular/common';
+import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 
 register();
 @Component({
@@ -21,6 +22,7 @@ register();
   selector: 'app-cart',
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss'],
+  providers: [InAppBrowser],
 })
 
 export class CartComponent implements OnInit {
@@ -32,7 +34,7 @@ export class CartComponent implements OnInit {
   loading2 : boolean = false;
 
 
-  constructor(private location: Location, private toastController: ToastController, private navCtrl: NavController, private apiService: ApiService, private navigationService: NavigationService) { }
+  constructor(private iab: InAppBrowser, private location: Location, private toastController: ToastController, private navCtrl: NavController, private apiService: ApiService, private navigationService: NavigationService) { }
 
   ngOnInit() {
     this.loadCart()
@@ -55,7 +57,7 @@ export class CartComponent implements OnInit {
         next: (res: any) => {
           try {
             this.cart = res.data.cart;
-            console.log("Cart Data : ", this.cart);
+            console.log("Cart Data : ", res);
 
             if (
               this.cart &&
@@ -63,6 +65,7 @@ export class CartComponent implements OnInit {
               Array.isArray(this.cart.lines.edges)
             ) {
               this.cartItems = this.parseCartItems(this.cart);
+              console.log("CartIOtem",this.cart)
             } else {
               this.cartItems = [];
             }
@@ -71,18 +74,21 @@ export class CartComponent implements OnInit {
             this.cartItems = [];
           } finally {
             this.loading = false;
+            this.loading2 = false;
           }
         },
         error: (err) => {
           console.error("Failed to fetch cart:", err);
           this.cartItems = [];
           this.loading = false;
+          this.loading2 = false;
         }
       });
     } else {
       console.warn("No cart ID found");
       this.cartItems = [];
       this.loading = false;
+      this.loading2 = false;
     }
   }
 
@@ -95,6 +101,7 @@ export class CartComponent implements OnInit {
       const image = product.images.edges[0]?.node.url;
 
       return {
+        prodId: item.merchandise.product.id,
         Lineid: item.id,
         id: item.merchandise.id,
         name: product.title,
@@ -135,13 +142,10 @@ export class CartComponent implements OnInit {
       this.loadCart()
     } catch (error) {
       console.error('Add to cart error:', error);
-    } finally {
-      this.loading2 = false;
+      this.loading2 = false
     }
   }
   AddToCart(item: any) {
-    // console.log(item.quantityAvailable)
-    // console.log(item.quality)
     if(item.quantityAvailable !== item.quantity){
       this.addToCart(item.id, 1)
     }else{
@@ -181,7 +185,6 @@ export class CartComponent implements OnInit {
         next: (res: any) => {
           item.quantity = newQty;
           this.loadCart();
-          this.loading2 = false;
         },
         error: (err: any) => {
           console.error('Failed to update quantity:', err);
@@ -189,22 +192,31 @@ export class CartComponent implements OnInit {
         }
       });
     } else {
-      this.apiService.removeCartItem(cartId, item.Lineid).subscribe({
-        next: (res: any) => {
-          this.cartItems = this.cartItems.filter(i => i.id !== item.Lineid);
-          this.loadCart();
-          this.loading2 = false;
-        },
-        error: (err) => {
-          console.error('Failed to remove item:', err);
-          this.loading2 = false;
-        }
-      });
+      this.removeItem(item)
     }
   }
-
-  async openCheckout() {
-    await Browser.open({ url: this.cart.checkoutUrl });
+  
+  goToProdDetail(id:string){
+    this.navCtrl.navigateForward(['/productdetail'], {
+      queryParams: { id: id }
+    });
   }
+
+
+  openCheckout(url = this.cart.checkoutUrl) {
+    console.log(url)
+    const browser = this.iab.create(url, '_blank', {
+      location: 'yes',
+      toolbar: 'yes',
+      clearcache: 'yes',
+      clearsessioncache: 'yes',
+    });
+
+    browser.on('exit').subscribe(() => {
+      console.log('Browser closed');
+      // You can refresh the cart or navigate
+    });
+  }
+
 }
 

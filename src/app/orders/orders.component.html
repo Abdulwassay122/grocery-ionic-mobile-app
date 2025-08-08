@@ -1,0 +1,188 @@
+<ion-header>
+  <div class="head">
+    <ion-icon (click)="goToBack()" color="primary" name="chevron-back-outline"></ion-icon>
+    <ion-title>My Orders</ion-title>
+  </div>
+</ion-header>
+
+<ion-content >
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">My Orders</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Customer Info Section -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Customer Information</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item lines="none">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-label>
+          <h3>{{ customer.firstName | titlecase }} {{ customer.lastName | titlecase }}</h3>
+          <p>{{ customer.email }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Orders List -->
+  <div *ngFor="let order of customer.orders">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle>Order #{{ order.orderNumber }}</ion-card-subtitle>
+        <ion-card-title>{{ formatCurrency(order.totalPrice.amount, order.totalPrice.currencyCode) }}</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <!-- Order Details -->
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6">
+              <ion-item lines="none">
+                <ion-icon name="calendar-outline" slot="start"></ion-icon>
+                <ion-label>
+                  <h4>Order Date</h4>
+                  <p>{{ formatDate(order.processedAt) }}</p>
+                </ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="6">
+              <ion-item lines="none">
+                <ion-icon name="card-outline" slot="start"></ion-icon>
+                <ion-label>
+                  <h4>Payment Status</h4>
+                  <ion-chip [color]="getStatusColor(order.financialStatus)">
+                    {{ order.financialStatus }}
+                  </ion-chip>
+                </ion-label>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12">
+              <ion-item lines="none">
+                <ion-icon name="cube-outline" slot="start"></ion-icon>
+                <ion-label>
+                  <h4>Fulfillment Status</h4>
+                  <ion-chip [color]="getStatusColor(order.fulfillmentStatus)">
+                    {{ order.fulfillmentStatus }}
+                  </ion-chip>
+                </ion-label>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <!-- Line Items -->
+        <ion-list>
+          <ion-list-header>
+            <ion-label>
+              <h3>Items Ordered</h3>
+            </ion-label>
+          </ion-list-header>
+          
+          <ion-item *ngFor="let item of order.lineItems">
+            <ion-thumbnail slot="start">
+              <div class="item-placeholder">
+                <img [src]="item.variant.image.url" alt="">
+              </div>
+            </ion-thumbnail>
+            <ion-label>
+              <h3>{{ item.title }}</h3>
+              <p>Quantity: {{ item.quantity }}</p>
+              <p>{{ formatCurrency(item.originalTotalPrice.amount, item.originalTotalPrice.currencyCode) }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+
+        <!-- Price Breakdown -->
+        <ion-list>
+          <ion-list-header>
+            <ion-label>
+              <h3>Order Summary</h3>
+            </ion-label>
+          </ion-list-header>
+          
+          <ion-item>
+            <ion-label>Subtotal</ion-label>
+            <ion-note slot="end">{{ formatCurrency(order.subtotalPrice.amount, order.subtotalPrice.currencyCode) }}</ion-note>
+          </ion-item>
+          
+          <ion-item>
+            <ion-label>Shipping</ion-label>
+            <ion-note slot="end">
+              <span *ngIf="parseFloat(order.totalShippingPrice.amount) === 0; else shippingCost">
+                FREE
+              </span>
+              <ng-template #shippingCost>
+                {{ formatCurrency(order.totalShippingPrice.amount, order.totalShippingPrice.currencyCode) }}
+              </ng-template>
+            </ion-note>
+          </ion-item>
+          
+          <ion-item lines="none">
+            <ion-label>
+              <strong>Total</strong>
+            </ion-label>
+            <ion-note slot="end">
+              <strong>{{ formatCurrency(order.totalPrice.amount, order.totalPrice.currencyCode) }}</strong>
+            </ion-note>
+          </ion-item>
+        </ion-list>
+
+        <!-- Shipping Address -->
+        <ion-list>
+          <ion-list-header>
+            <ion-label>
+              <h3>Shipping Address</h3>
+            </ion-label>
+          </ion-list-header>
+          
+          <ion-item lines="none">
+            <ion-icon name="location-outline" slot="start"></ion-icon>
+            <ion-label>
+              <h4>{{ order.shippingAddress.name | titlecase }}</h4>
+              <p>{{ order.shippingAddress.address1 }}</p>
+              <p>{{ order.shippingAddress.city }}, {{ order.shippingAddress.country }}</p>
+              <p>{{ order.shippingAddress.zip }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+
+        <!-- Action Buttons -->
+        <!-- <ion-grid class="ion-margin-top">
+          <ion-row>
+            <ion-col size="6">
+              <ion-button expand="block" fill="outline">
+                <ion-icon name="eye-outline" slot="start"></ion-icon>
+                View Details
+              </ion-button>
+            </ion-col>
+            <ion-col size="6">
+              <ion-button expand="block" [disabled]="order.fulfillmentStatus === 'FULFILLED'">
+                <ion-icon name="locate-outline" slot="start"></ion-icon>
+                Track Order
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid> -->
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Empty State (if no orders) -->
+  <ion-card *ngIf="customer.orders.length === 0">
+    <ion-card-content class="ion-text-center">
+      <ion-icon name="bag-outline" size="large" color="medium"></ion-icon>
+      <h2>No Orders Found</h2>
+      <p>You haven't placed any orders yet.</p>
+      <ion-button fill="clear" routerLink="/shop">
+        Start Shopping
+        <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

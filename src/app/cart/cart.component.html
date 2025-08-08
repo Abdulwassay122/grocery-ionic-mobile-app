@@ -17,10 +17,10 @@
 
           <ion-item lines="none">
             <ion-card class="product-card">
-              <img [src]="item.image" alt="Product Image" />
+              <img (click)="goToProdDetail(item.prodId)" [src]="item.image" alt="Product Image" />
 
               <ion-card-content>
-                <div class="product-info">
+                <div (click)="goToProdDetail(item.prodId)" class="product-info">
                   <h2>{{ item.name }}</h2>
                   <div class="price-section">
                     <p class="price">
